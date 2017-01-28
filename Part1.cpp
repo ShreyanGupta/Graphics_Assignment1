@@ -1,8 +1,10 @@
 #include "Head.h"
 
+using namespace std;
+
 int main(int argc, char const *argv[])
 {
-	ifstream fin.open("inputs/" + argv[1]);
+	ifstream fin("inputs/" + (string)str(argv[1]));
 	string s;
 	fin >> s; //camera
 	Camera cam;
@@ -14,7 +16,7 @@ int main(int argc, char const *argv[])
 	cam.dirn.dx = w-cam.posn.x;
 	fin >> w;
 	cam.dirn.dy = w-cam.posn.y;
-	fin >> z;
+	fin >> w;
 	cam.dirn.dz = w-cam.posn.z;
 	cout << "dz = " << cam.dirn.dz << endl;
 	return 0;
