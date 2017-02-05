@@ -5,11 +5,15 @@
 #include <utility>
 
 class Object{
-	Matrix transformation;
+	Matrix t;
 	vector<float> k_ads
+	vector<int> color;
 public:	
+	Object();
+	void set_color(int r, int g, int b);
 	virtual Ray normal(Ray r) = 0;
 	virtual Ray reflected_ray(Ray r) = 0;
+	virtual float intersection(Ray r) = 0;
 };
 
 class Sphere : public Object {

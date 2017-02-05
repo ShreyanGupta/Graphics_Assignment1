@@ -20,12 +20,10 @@ r: 2
 Rotate: x 30
 Rotate: y 30
 Rotate: z 45
-Shear: sh_x sh_y sh_z
+Shear: c1 c2 c3 c4 c5 c6
 Scale: s_x s_y s_z
 Color: r g b
-Ka:
-Kd:
-Ks:
+K: ka kd ks
 end 
 Polygons: 3
 Plane
