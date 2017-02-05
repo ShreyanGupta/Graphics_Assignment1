@@ -39,10 +39,9 @@ int main(int argc, char const *argv[])
 		// m1 *= m2;
 		// cout << "using *= : \n";
 		// m1.print();
-		cout << "Inverse is : \n";
-		m1.Calc_Inverse();
-		m1.print_Inv();
-
+		// cout << "Inverse is : \n";
+		// m1.Calc_Inverse();
+		// m1.print_Inv();
 
 	
 	cout << "Parsing done! \n";
