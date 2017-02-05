@@ -3,12 +3,100 @@
 Matrix::Matrix()
 {
 	t = vector<vector<float> > (4, vector<float> (4,0));
+	t_1 = vector<vector<float> > (4, vector<float> (4,0));
+	for (int i = 0; i < 4; i++)
+		t[i][i] = 1;
 }
 
-Matrix Matrix::Inverse()
+Matrix::Matrix(float a00, float a01, float a02, float a03, float a10, float a11, float a12, float a13, float a20, float a21, float a22, float a23, float a30, float a31, float a32, float a33)
 {
-	Matrix m; // the inverse
-	return m;
+	t = vector<vector<float> > (4, vector<float> (4,0));
+	t[0][0] = a00;
+	t[0][1] = a01;
+	t[0][2] = a02;
+	t[0][3] = a03;
+	t[1][0] = a10;
+	t[1][1] = a11;
+	t[1][2] = a12;
+	t[1][3] = a13;
+	t[2][0] = a20;
+	t[2][1] = a21;
+	t[2][2] = a22;
+	t[2][3] = a23;
+	t[3][0] = a30;
+	t[3][1] = a31;
+	t[3][2] = a32;
+	t[3][3] = a33;
+	t_1 = vector<vector<float> > (4, vector<float> (4,0));	
+}
+
+void Matrix::Cofactor(int p, int q, vector<vector<float> >& temp, vector<vector<float> >& x,int n)
+{
+	int i = 0, j = 0;
+	for (int row = 0; row < n; row++)
+		for (int col = 0; col < n; col++)
+		{
+			if (row != p && col != q)
+			{
+				temp[i][j++] = x[row][col];
+				if (j == n-1)
+				{
+					j = 0;
+					i++;
+				}
+			}
+		}
+}
+
+float Matrix::Determinant(std::vector<std::vector<float> > &m,int n)
+{
+	float D = 0;
+	if (n == 1)
+		return m[0][0];
+	vector<vector<float> > temp (4, vector<float> (4,0));
+	int sign = 1;
+	for (int f = 0; f < n; f++)
+	{
+		Cofactor(0,f,temp,m,n);
+		D += (sign * m[0][f] * Determinant(temp,n-1));
+		sign = -sign;
+	}
+	return D;
+}
+
+void Matrix::Adjoint(vector<vector<float> >&x, vector<vector<float> > &adj)
+{
+	int sign = 1;
+	vector<vector<float> > temp (4, vector<float> (4,0));
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+		{
+			Cofactor(i,j,temp,x,4);
+			sign = ((((i+j)%2) == 0) ? 1 : -1);
+			adj[j][i] = sign * Determinant(temp,3);
+		}
+}
+
+void Matrix::Calc_Inverse()
+{
+	float det = Determinant(t,4);
+	cout << "det is : " << det << endl;
+	if (det < 0.000001 && det > -0.000001)
+	{
+		cout << "SINGULAR! \n";
+		return;
+	}
+	vector<vector<float> > adj (4, vector<float> (4,0));
+	Adjoint(t,adj);
+	cout << "ADJ --------------- \n";
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			cout << adj[i][j] << " ";
+	cout << "--------------\n";
+
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			t_1[i][j] = adj[i][j]/float(det);
 }
 
 Matrix Matrix::operator*(const Matrix& m)
@@ -30,6 +118,26 @@ Matrix& Matrix::operator*=(const Matrix& m)
 	return *this;
 }
 
+vector<float> Matrix::Vec_Mul(vector<float> &v)
+{
+	// v : length = 4.
+	vector<float> ans(4,0);
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			ans[i] += v[i]*t[j][i];
+	return ans;
+}
+
+vector<float> Matrix::Inv_Vec_Mul(vector<float> &v)
+{
+	// v : length = 4.
+	vector<float> ans(4,0);
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			ans[i] += v[i]*t_1[j][i];
+	return ans;
+}
+
 void Matrix::print()
 {
 	for (int i = 0; i < 4; i++)
@@ -37,5 +145,15 @@ void Matrix::print()
 		for (int j = 0; j < 4; j++)
 			cout << t[i][j] << " ";
 		cout << "\n";		
+	}
+}
+
+void Matrix::print_Inv()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+			cout << t_1[i][j] << " ";
+		cout << "\n";				
 	}
 }
