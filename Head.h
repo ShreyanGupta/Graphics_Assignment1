@@ -9,12 +9,10 @@ struct Matrix
 {
 	vector<vector<float> > trans;
 	Matrix();
+	Matrix Inverse();
+	Multiply();
 };
 
-inline Matrix()
-{
-	trans = vector<vector<float> > (4, vector<float> (4));
-}
 
 struct Point
 {

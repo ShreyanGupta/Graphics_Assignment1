@@ -1,20 +1,32 @@
-u:
-v:
-n:
-Camera:
-10 0 -7
-Origin:
+u: 0 1 0
+v:  0 0
+n: 0 0 -1
+eye: 10 0 -7
+Origin: 0 0 0
 Window:
 No_pixels:
 Ia:
 BgColor:
 Light-sources: 3
-5 5 7
-10 4 2
-7 0 -1
+c: 5 5 7
+i:
+c: 10 4 2
+i:
+c: 7 0 -1
+i: 
 Spheres: 4
-0 0 3 2
--1 7 9 4
-11 21 32 3
-4 -2 8 2
-Polygons: 0
+c: 0 0 3
+r: 2
+Rotate: x 30
+Rotate: y 30
+Rotate: z 45
+Shear: sh_x sh_y sh_z
+Scale: s_x s_y s_z
+Color: r g b
+Ka:
+Kd:
+Ks:
+end 
+Polygons: 3
+Plane
+2d points
