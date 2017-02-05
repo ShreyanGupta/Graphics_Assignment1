@@ -1,25 +1,58 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
+struct Matrix
+{
+	vector<vector<float> > trans;
+	Matrix();
+};
+
+inline Matrix()
+{
+	trans = vector<vector<float> > (4, vector<float> (4));
+}
+
 struct Point
 {
-	float x;
-	float y;
-	float z;
+	vector<float> p;
+	Point();
 };
+
+inline Point::Point()
+{
+	p = vector<float>(4);
+	p[3] = 1;
+}
 
 struct Direction
 {
-	float dx;
-	float dy;
-	float dz;
+	vector<float> dir_vec;
+	Direction();
 };
 
-struct Camera
+inline Direction()
 {
-	Point posn;
-	Direction dirn;
+	dir_vec = vector<float> (3);
+}
+
+struct Sphere
+{
+	Point center;
+	Matrix m;
+	float radius;
 };
+
+struct Triangle
+{
+	vector<Point> pts;
+	Triangle();
+};
+
+inline Triangle::Triangle()
+{
+	pts = vector<Point> (3);
+}

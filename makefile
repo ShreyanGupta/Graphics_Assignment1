@@ -1,6 +1,6 @@
 CFLAGS = -c -std=c++11 -Ofast -march=native
 LFLAGS = -std=c++11 -Ofast -march=native
-OBJ = Part1.o
+OBJ = 
 
 all : out
 

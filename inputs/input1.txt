@@ -1,6 +1,13 @@
+u:
+v:
+n:
 Camera:
 10 0 -7
-4 3 3
+Origin:
+Window:
+No_pixels:
+Ia:
+BgColor:
 Light-sources: 3
 5 5 7
 10 4 2
@@ -10,5 +17,4 @@ Spheres: 4
 -1 7 9 4
 11 21 32 3
 4 -2 8 2
-Triangles: 0
-
+Polygons: 0
