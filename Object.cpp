@@ -78,12 +78,17 @@ pair<float, vector<float> > Triangle::intersection(Ray r){
 	for (int i = 0; i < 4; i++)
 		x.t[2][i] = c[i];
 	vector<float> rd = r.get_d();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 3; i++)
 		x.t[3][i] = -rd[i];
+	x.t[3][3] = 0;
 	x.Calc_Inverse();
+	x.print();
+	x.print_Inv();
 	vector<float> uvwt = r.get_p();
 	uvwt = x.Inv_Vec_Mul(uvwt);
-	if (abs(uvwt[0]) < eps && abs(uvwt[1]) < eps && abs(uvwt[2]) < eps && abs((uvwt[0] + uvwt[1] + uvwt[2]) - 1) < eps)
+	for (int i = 0; i < 4; i++)
+		cout << uvwt[i] << " ";
+	if (uvwt[0] >= eps && (uvwt[1] >= eps) && (uvwt[2] >= eps))
 	{
 		// PoI inside triangle!
 		return make_pair(uvwt[3],vector<float> (0));

@@ -125,7 +125,7 @@ vector<float> Matrix::Vec_Mul(vector<float> &v)
 	vector<float> ans(4,0);
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
-			ans[i] += v[i]*t[j][i];
+			ans[i] += v[j]*t[j][i];
 	return ans;
 }
 
@@ -135,7 +135,7 @@ vector<float> Matrix::Inv_Vec_Mul(vector<float> &v)
 	vector<float> ans(4,0);
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
-			ans[i] += v[i]*t_1[j][i];
+			ans[i] += v[j]*t_1[j][i];
 	return ans;
 }
 
