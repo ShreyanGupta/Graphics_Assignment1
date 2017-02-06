@@ -5,6 +5,7 @@
 #include <utility>
 #include <cmath>
 #include <tuple>
+#include <iostream>
 
 using namespace std;
 
@@ -30,6 +31,8 @@ public:
 
 	void add_offset(vector<float> &o);
 	void add_dirn(vector<float> &dn);
+
+	void print();
 };
 
 #endif
