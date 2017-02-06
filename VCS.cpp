@@ -63,3 +63,8 @@ void VCS::generate_Rays()
 		r_ij.add_dirn(sub_y);
 	}
 }
+
+vector<float> VCS::recursive_ray_trace(Ray &r, int n)
+{
+
+}

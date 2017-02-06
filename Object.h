@@ -12,7 +12,7 @@
 
 using namespace std;
 
-#define eps 0.000001
+#define eps 0.000000001
 
 class Object{
 public:	

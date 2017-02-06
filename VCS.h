@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Ray make_ray(float a, float b, float c, float d, float e, float f){
+inline Ray make_ray(float a, float b, float c, float d, float e, float f){
 	vector<float> x(4,1), y(4,1);
 	x[0] = a;
 	x[1] = b;
@@ -55,6 +55,7 @@ public:
 	VCS();
 	void generate_Rays();
 	void set_bg_color();
+	vector<float> recursive_ray_trace(Ray&,int);
 };
 
 #endif
