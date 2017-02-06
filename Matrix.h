@@ -1,3 +1,6 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -33,3 +36,5 @@ struct Matrix
 	 void Cofactor(int,int,vector<vector<float> >&,vector<vector<float> >&,int);
 	 void Adjoint(vector<vector<float> > &,vector<vector<float> > &);
 };
+
+#endif
