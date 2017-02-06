@@ -20,10 +20,10 @@ r: 2
 rotate: x 30
 rotate: y 30
 rotate: z 45
-shear: c1 c2 c3 c4 c5 c6
-scale: s_x s_y s_z
-color: r g b
-K: ka kd ks
+shear: 0 0 0 0 0 0
+scale: 1 1 1
+color: 10 20 50
+K: 0.1 0.1 0.1
 end 
 polygons: 3
 Plane

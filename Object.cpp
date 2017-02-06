@@ -13,7 +13,7 @@ void Object::set_color(int r, int g, int b){
 	color[2] = std::max(0, std::min(255, b));
 }
 
-Ray Sphere::normal(Ray r, pair<float, vector<float> > pr){
+Ray Sphere::normal(Ray r, pair<float, vector<float> > &pr){
 	return Ray(t.transform_inv_transpose(pr.second), r.get_point(pr.first));
 }
 
@@ -33,14 +33,14 @@ pair<float, vector<float> > Sphere::intersection(Ray r){
 	}
 }
 
-// Ray Polygon::normal(Ray r){
-
-// }
+Ray Triangle::normal(Ray r, pair<float, vector<float> > &pr){
+	return r;
+}
 
 // Ray Ploygon::reflected_ray(Ray r){
 	
 // }
 
-// Ray Polygon::intersection(Ray r){
+pair<float, vector<float> > Triangle::intersection(Ray r){
 
-// }
+}

@@ -20,6 +20,10 @@ class Sphere : public Object {
 	float radius;
 };
 
+
+class Triangle : public Object {
+	
+};
 // class Polygon : public Object {
 // 	vector< pair<float, float> > pts;
 // 	Ray plane;
