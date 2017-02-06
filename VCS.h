@@ -55,6 +55,7 @@ public:
 	VCS();
 	void generate_Rays();
 	void set_bg_color();
+	
 	vector<float> recursive_ray_trace(Ray&,int);
 };
 
