@@ -4,15 +4,16 @@
 #include <fstream>
 #include <cmath>
 
-void parse_sphere(int n, vector<Object*> obj_vector, istream &fin);
-void parse_triangles(int n, vector<Object*> obj_vector, istream &fin);
+void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin);
+void parse_triangles(int n, vector<Object*> &obj_vector, istream &fin);
 vector<LightSrc> parse_light_source(int n, istream &fin);
 
 
 VCS parse_vcs(istream &fin){
+	cout << "inside function\n";
+
 	string temp;
 	VCS vcs;
-	
 	fin >> temp >> vcs.u[0] >> vcs.u[1] >> vcs.u[2];
 	fin >> temp >> vcs.v[0] >> vcs.v[1] >> vcs.v[2];
 	fin >> temp >> vcs.n[0] >> vcs.n[1] >> vcs.n[2];
@@ -23,23 +24,24 @@ VCS parse_vcs(istream &fin){
 	fin >> temp >> vcs.Ia;
 	fin >> temp >> vcs.bg_color[0] >> vcs.bg_color[1] >> vcs.bg_color[2];
 	vcs.set_bg_color();
-
 	while((fin >> temp, temp).compare("end") != 0){
 		if(temp.compare("light-sources:") == 0){
 			int n;
 			fin >> n;
+			cout << "Light " << n << endl;
 			vcs.lights = parse_light_source(n,fin);
 		}
 		else if(temp.compare("spheres:") == 0){
 			int n;
 			fin >> n;
+			cout << "Spheres " << n << endl;
 			parse_sphere(n, vcs.obj_vec, fin);
 		}
-		else if(temp.compare("triangles:") == 0){
-			int n;
-			fin >> n;
-			parse_triangles(n, vcs.obj_vec, fin);
-		}
+		// else if(temp.compare("triangles:") == 0){
+		// 	int n;
+		// 	fin >> n;
+		// 	parse_triangles(n, vcs.obj_vec, fin);
+		// }
 	}
 
 	return vcs;
@@ -60,7 +62,7 @@ vector<LightSrc> parse_light_source(int n, istream &fin){
 	return v;
 }
 
-void parse_sphere(int n, vector<Object*> obj_vector, istream &fin){
+void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin){
 	string temp;
 	for(int i=0; i<n; ++i){
 		Sphere *sphere = new Sphere();
@@ -72,6 +74,7 @@ void parse_sphere(int n, vector<Object*> obj_vector, istream &fin){
 			}
 			else if(temp.compare("r:") == 0){
 				float r;
+				fin >> r;
 				sphere->radius = r;
 			}
 			else if(temp.compare("rotate:") == 0){
@@ -111,7 +114,7 @@ void parse_sphere(int n, vector<Object*> obj_vector, istream &fin){
 	}
 }
 
-void parse_triangles(int n, vector<Object*> obj_vector, istream &fin){
+void parse_triangles(int n, vector<Object*> &obj_vector, istream &fin){
 	string temp;
 	for (int i = 0; i < n; i++)
 	{

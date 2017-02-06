@@ -81,7 +81,7 @@ void Matrix::Adjoint(vector<vector<float> >&x, vector<vector<float> > &adj)
 void Matrix::Calc_Inverse()
 {
 	float det = Determinant(t,4);
-	cout << "det is : " << det << endl;
+	// cout << "det is : " << det << endl;
 	if (det < 0.000001 && det > -0.000001)
 	{
 		cout << "SINGULAR! \n";
@@ -89,11 +89,11 @@ void Matrix::Calc_Inverse()
 	}
 	vector<vector<float> > adj (4, vector<float> (4,0));
 	Adjoint(t,adj);
-	cout << "ADJ --------------- \n";
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
-			cout << adj[i][j] << " ";
-	cout << "--------------\n";
+	// cout << "ADJ --------------- \n";
+	// for (int i = 0; i < 4; i++)
+	// 	for (int j = 0; j < 4; j++)
+	// 		cout << adj[i][j] << " ";
+	// cout << "--------------\n";
 
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
@@ -160,6 +160,8 @@ void Matrix::print_Inv()
 }
 
 Ray Matrix::transform_inv(Ray &r){
+	cout << "inside transform_inv\n";
+	r.print();
 	auto d = r.get_d();
 	auto p = r.get_p();
 	for(int i=0; i<3; ++i) p[i] -= t_1[4][i];

@@ -78,3 +78,9 @@ void Ray::add_dirn(vector<float> &dn)
 		b += p[i]*d[i];
 	}
 }
+
+void Ray::print(){
+	cout << "d "; for(auto i : d) cout << i << " "; cout << endl;
+	cout << "p "; for(auto i : p) cout << i << " "; cout << endl;
+	cout << "a " << a << " b " << b << " c " << c << endl;
+}
