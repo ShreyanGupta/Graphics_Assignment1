@@ -11,19 +11,18 @@ class Object{
 public:	
 	Object();
 	void set_color(int r, int g, int b);
-	virtual Ray normal(Ray r) = 0;
-	virtual Ray reflected_ray(Ray r) = 0;
-	virtual float intersection(Ray r) = 0;
+	virtual Ray normal(Ray r, pair<float, vector<float> > pr) = 0;
+	// virtual Ray reflected_ray(Ray r) = 0;
+	virtual pair<float, vector<float> > intersection(Ray r) = 0;
 };
 
 class Sphere : public Object {
 	float radius;
-	
 };
 
-class Polygon : public Object {
-	vector< pair<float, float> > pts;
-	Ray plane;
-};
+// class Polygon : public Object {
+// 	vector< pair<float, float> > pts;
+// 	Ray plane;
+// };
 
 #endif

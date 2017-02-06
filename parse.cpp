@@ -3,6 +3,10 @@
 #include <fstream>
 #include <cmath>
 
+void parse_vcs(istream &fin){
+	
+}
+
 void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
 	string temp;
 	for(int i=0; i<n; ++i){
