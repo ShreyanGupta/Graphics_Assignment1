@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include "Ray.h"
 
 Matrix::Matrix()
 {
@@ -157,3 +158,26 @@ void Matrix::print_Inv()
 		cout << "\n";				
 	}
 }
+
+Ray Matrix::transform_inv(Ray r){
+	auto d = r.get_d();
+	auto p = r.get_p();
+	for(int i=0; i<3; ++i) p[i] -= t_1[4][i];
+	vector<float> new_d(d);
+	vector<float> new_p(p);
+	for(int i=0; i<3; ++i){
+		new_p[i] = p[0]*t_1[0][i] + p[1]*t_1[1][i] + p[0]*t_1[2][i];
+		new_d[i] = d[0]*t_1[0][i] + d[1]*t_1[1][i] + d[0]*t_1[2][i];
+	}
+	return Ray(new_d, new_p);
+}
+
+void Matrix::transform_inv_transpose(vector<float> &v){
+	vector<float> new_v(4,1);
+	for(int i=0; i<3; ++i){
+		new_v[i] = v[0]*t_1[i][0] + v[1]*t_1[i][1] + v[0]*t_1[i][2];
+	}
+	for(int i=0; i<3; ++i) v[i] = new_v[i];
+}
+
+

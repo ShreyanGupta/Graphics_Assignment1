@@ -8,6 +8,8 @@
 
 using namespace std;
 
+struct Ray;
+
 struct Matrix
 {
 	vector<vector<float> > t;
@@ -26,6 +28,9 @@ struct Matrix
 
 	void print();
 	void print_Inv();
+
+	Ray transform_inv(Ray &r);
+	void transform_inv_transpose(vector<float> &v);
 	
 	private:
 	 void Cofactor(int,int,vector<vector<float> >&,vector<vector<float> >&,int);
