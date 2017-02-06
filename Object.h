@@ -12,6 +12,8 @@
 
 using namespace std;
 
+#define eps 0.000001
+
 class Object{
 public:	
 	vector<float> k_ads;

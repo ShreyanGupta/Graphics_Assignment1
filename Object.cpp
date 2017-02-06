@@ -62,7 +62,9 @@ void Triangle::Calc_Normal()
 }
 
 Ray Triangle::normal(Ray r, pair<float, vector<float> > &pr){
-	return r;
+	vector<float> p = r.get_point(pr.first);
+	Ray ans (nml,p);
+	return ans;
 }
 
 // Ray Ploygon::reflected_ray(Ray r){
@@ -70,5 +72,27 @@ Ray Triangle::normal(Ray r, pair<float, vector<float> > &pr){
 // }
 
 pair<float, vector<float> > Triangle::intersection(Ray r){
-
+	// p - 
+	Matrix x;
+	for (int i = 0; i < 4; i++)
+		x.t[0][i] = a[i];
+	for (int i = 0; i < 4; i++)
+		x.t[1][i] = b[i];
+	for (int i = 0; i < 4; i++)
+		x.t[2][i] = c[i];
+	vector<float> rd = r.get_d();
+	for (int i = 0; i < 4; i++)
+		x.t[3][i] = -rd[i];
+	x.Calc_Inverse();
+	vector<float> uvwt = r.get_p();
+	uvwt = x.Inv_Vec_Mul(uvwt);
+	if (abs(uvwt[0]) < eps && abs(uvwt[1]) < eps && abs(uvwt[2]) < eps && abs((uvwt[0] + uvwt[1] + uvwt[2]) - 1) < eps)
+	{
+		// PoI inside triangle!
+		return make_pair(uvwt[3],vector<float> (0));
+	}
+	else
+	{
+		return make_pair(-1,vector<float> (0));
+	}
 }

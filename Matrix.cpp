@@ -102,7 +102,7 @@ void Matrix::Calc_Inverse()
 
 Matrix Matrix::operator*(const Matrix& m)
 {
-	Matrix ans;
+	Matrix m (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
 			for (int k = 0; k < 4; k++)
