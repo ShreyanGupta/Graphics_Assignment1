@@ -172,12 +172,12 @@ Ray Matrix::transform_inv(Ray &r){
 	return Ray(new_d, new_p);
 }
 
-void Matrix::transform_inv_transpose(vector<float> &v){
+vector<float> Matrix::transform_inv_transpose(vector<float> v){
 	vector<float> new_v(4,1);
 	for(int i=0; i<3; ++i){
 		new_v[i] = v[0]*t_1[i][0] + v[1]*t_1[i][1] + v[0]*t_1[i][2];
 	}
-	for(int i=0; i<3; ++i) v[i] = new_v[i];
+	return new_v;
 }
 
 

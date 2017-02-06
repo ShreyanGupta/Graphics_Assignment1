@@ -23,6 +23,7 @@ struct LightSrc
 
 class VCS
 {
+public:
 	vector<float> u;
 	vector<float> v;
 	vector<float> n;
@@ -41,11 +42,8 @@ class VCS
 	vector<vector<vector<int> > > render_this;
 	
 	VCS();
-
 	void generate_Rays();
 	void set_bg_color();
-	
-
 };
 
 #endif
