@@ -21,16 +21,16 @@ public:
 	Matrix t;
 	Object();
 	void set_color(int r, int g, int b);
-	virtual Ray normal(Ray r, pair<float, vector<float> > &pr) = 0;
+	virtual Ray normal(Ray &r, pair<float, vector<float> > &pr) = 0;
 	// virtual Ray reflected_ray(Ray r) = 0;
-	virtual pair<float, vector<float> > intersection(Ray r) = 0;
+	virtual pair<float, vector<float> > intersection(Ray &r) = 0;
 };
 
 class Sphere : public Object {
 public:
 	float radius;
-	pair<float, vector<float> > intersection(Ray r);
-	Ray normal(Ray r, pair<float, vector<float> > &pr);
+	pair<float, vector<float> > intersection(Ray &r);
+	Ray normal(Ray &r, pair<float, vector<float> > &pr);
 };
 
 
@@ -47,8 +47,8 @@ public:
 
 	void Calc_Normal();
 
-	pair<float, vector<float> > intersection(Ray r);
-	Ray normal(Ray r, pair<float, vector<float> > &pr);
+	pair<float, vector<float> > intersection(Ray &r);
+	Ray normal(Ray &r, pair<float, vector<float> > &pr);
 };
 // class Polygon : public Object {
 // 	vector< pair<float, float> > pts;
