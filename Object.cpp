@@ -23,6 +23,7 @@ Ray Sphere::normal(Ray r, pair<float, vector<float> > &pr){
 
 pair<float, vector<float> > Sphere::intersection(Ray r){
 	r.print();
+	t.print();
 	t.print_Inv();
 	Ray t_r = t.transform_inv(r);
 	cout << "print t_r\n"; t_r.print(); cout << endl;

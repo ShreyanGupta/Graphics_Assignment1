@@ -70,7 +70,9 @@ void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin){
 			if(temp.compare("c:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
+				cout << "center before\n"; sphere->t.print();
 				sphere->t *= Matrix(1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1);
+				cout << "center\n"; sphere->t.print();
 			}
 			else if(temp.compare("r:") == 0){
 				float r;
@@ -85,16 +87,19 @@ void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin){
 				if(temp.compare("x") == 0) sphere->t *= Matrix(1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1);
 				if(temp.compare("y") == 0) sphere->t *= Matrix(c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1);
 				if(temp.compare("z") == 0) sphere->t *= Matrix(c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1);
+				cout << "rotate " << temp << endl; sphere->t.print();
 			}
 			else if(temp.compare("shear:") == 0){
 				float c1, c2, c3, c4, c5, c6;
 				fin >> c1 >> c2 >> c3 >> c4 >> c5 >> c6;
 				sphere->t *= Matrix(1,c1,c2,0, c3,1,c4,0, c5,c6,1,0, 0,0,0,1);
+				cout << "shear\n"; sphere->t.print();
 			}
 			else if(temp.compare("scale:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
 				sphere->t *= Matrix(x,0,0,0, 0,y,0,0, 0,0,z,0, 0,0,0,1);
+				cout << "scale\n"; sphere->t.print();
 			}
 			else if(temp.compare("color:") == 0){
 				float r, g, b;
