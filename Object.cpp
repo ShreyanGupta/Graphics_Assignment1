@@ -22,15 +22,12 @@ Ray Sphere::normal(Ray r, pair<float, vector<float> > &pr){
 // }
 
 pair<float, vector<float> > Sphere::intersection(Ray r){
-	r.print();
-	t.print();
-	t.print_Inv();
 	Ray t_r = t.transform_inv(r);
 	cout << "print t_r\n"; t_r.print(); cout << endl;
 	auto abc = t_r.get_abc();
 	get<2>(abc) -= radius*radius;
 	float disc = get<1>(abc) * get<1>(abc) - get<0>(abc) * get<2>(abc);
-	if(disc < 0) return make_pair(-2, vector<float>());
+	if(disc < 0) return make_pair(-2, vector<float>(4,1));
 	else{
 		float tt = (-get<1>(abc) - sqrt(disc))/get<0>(abc);
 		return make_pair(tt, t_r.get_point(tt));

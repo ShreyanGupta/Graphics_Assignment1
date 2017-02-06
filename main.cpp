@@ -5,16 +5,16 @@ using namespace std;
 
 VCS parse_vcs(istream &fin);
 
-Ray make_ray(float a, float b, float c, float d, float e, float f){
-	vector<float> x(4,1), y(4,1);
-	x[0] = a;
-	x[1] = b;
-	x[2] = c;
-	y[0] = d;
-	y[1] = e;
-	y[2] = f;
-	return Ray(x,y);
-}
+// Ray make_ray(float a, float b, float c, float d, float e, float f){
+// 	vector<float> x(4,1), y(4,1);
+// 	x[0] = a;
+// 	x[1] = b;
+// 	x[2] = c;
+// 	y[0] = d;
+// 	y[1] = e;
+// 	y[2] = f;
+// 	return Ray(x,y);
+// }
 
 int main(int argc, char const *argv[])
 {
@@ -68,7 +68,10 @@ int main(int argc, char const *argv[])
 	cout << vcs.obj_vec.size() << endl;
 	for(auto ptr : vcs.obj_vec){
 		auto intersection = ptr->intersection(r);
-		cout << intersection.first << " " << endl;
+		cout << "int " << intersection.first << " point ";
+		for(auto i : intersection.second) cout << i << " "; cout << endl;
+		auto normal = ptr->normal(r,intersection);
+		normal.print();
 	}
 	
 	return 0;
