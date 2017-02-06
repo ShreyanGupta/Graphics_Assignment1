@@ -4,6 +4,8 @@
 #include <vector>
 #include <utility>
 
+using namespace std;
+
 class Ray{
 private:
 	vector<float> d;	// length 4 vector specifying direction

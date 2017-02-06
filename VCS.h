@@ -1,7 +1,6 @@
 #ifndef VCS_H
 #define VCS_H
 
-#include "Matrix.h"
 #include "Object.h"
 
 #include <iostream>

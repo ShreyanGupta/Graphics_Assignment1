@@ -1,31 +1,31 @@
 u: 0 1 0
-v:  0 0
+v: 1 0 0
 n: 0 0 -1
 eye: 10 0 -7
 Origin: 0 0 0
-Window:
-No_pixels:
-Ia:
-BgColor:
-Light-sources: 3
+Window: -10 10 10 -10
+No_pixels: 200 200
+Ia: 10
+BgColor: 120 120 120
+light-sources: 3
 c: 5 5 7
-i:
+i: 15
 c: 10 4 2
-i:
+i: 17
 c: 7 0 -1
-i: 
-Spheres: 4
+i: 19
+spheres: 1
 c: 0 0 3
 r: 2
-Rotate: x 30
-Rotate: y 30
-Rotate: z 45
-Shear: c1 c2 c3 c4 c5 c6
-Scale: s_x s_y s_z
-Color: r g b
-K: ka kd ks
+rotate: x 30
+rotate: y 30
+rotate: z 45
+shear: 0 0 0 0 0 0
+scale: 1 1 1
+color: 10 20 50
+K: 0.1 0.1 0.1
 end 
-Polygons: 3
+polygons: 3
 Plane
 2d points
 
