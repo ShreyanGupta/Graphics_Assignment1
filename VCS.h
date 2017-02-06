@@ -34,6 +34,7 @@ struct LightSrc
 
 class VCS
 {
+	int limit = 2;
 public:
 	vector<float> u;
 	vector<float> v;
@@ -57,6 +58,7 @@ public:
 	void set_bg_color();
 	
 	vector<float> recursive_ray_trace(Ray&,int);
+	pair<Object *, pair<float, vector<float> > > intersect(Ray &r);
 };
 
 #endif

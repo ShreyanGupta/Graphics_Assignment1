@@ -12,7 +12,7 @@
 
 using namespace std;
 
-#define eps 0.000000001
+#define eps 0.000001
 
 class Object{
 public:	
@@ -22,7 +22,7 @@ public:
 	Object();
 	void set_color(int r, int g, int b);
 	virtual Ray normal(Ray r, pair<float, vector<float> > &pr) = 0;
-	// virtual Ray reflected_ray(Ray r) = 0;
+	virtual Ray reflected(Ray &r, Ray &n) = 0;
 	virtual pair<float, vector<float> > intersection(Ray r) = 0;
 };
 
@@ -31,6 +31,7 @@ public:
 	float radius;
 	pair<float, vector<float> > intersection(Ray r);
 	Ray normal(Ray r, pair<float, vector<float> > &pr);
+	Ray reflected(Ray &r, Ray &n);
 };
 
 
@@ -49,6 +50,7 @@ public:
 
 	pair<float, vector<float> > intersection(Ray r);
 	Ray normal(Ray r, pair<float, vector<float> > &pr);
+	Ray reflected(Ray &r, Ray &n);
 };
 // class Polygon : public Object {
 // 	vector< pair<float, float> > pts;

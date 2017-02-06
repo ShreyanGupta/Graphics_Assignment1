@@ -57,6 +57,7 @@ void VCS::generate_Rays()
 		{
 			// add (0,-j*dy,0,1) * M to d
 			r_ij.add_dirn(add_y);
+			auto rgb = recursive_ray_trace(r_ij,0);
 			// RAY IN WCS:
 			// call rrt.
 		}
@@ -64,7 +65,33 @@ void VCS::generate_Rays()
 	}
 }
 
-vector<float> VCS::recursive_ray_trace(Ray &r, int n)
-{
-
+pair<Object *, pair<float, vector<float> > > VCS::intersect(Ray &r){
+	pair<float, vector<float> > t_min = make_pair(1000000000, vector<float>());
+	Object *first_obj = NULL;
+	for(auto ptr : obj_vec){
+		auto intersect = ptr->intersection(r);
+		if(intersect.first < eps) continue;
+		if(intersect.first < t_min.first){
+			first_obj = ptr;
+			t_min = intersect;
+		}
+	}
+	return make_pair(first_obj, t_min);
 }
+
+lskdahflksdhfjl VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
+	auto final_color = //ambient
+	auto normal = input.first->normal(r, input.second);
+	auto reflected = input.first->reflected(r, normal);
+}
+
+vector<float> VCS::recursive_ray_trace(Ray &r, int n){
+	if(n > limit) return bg_color;
+	auto q = intersect(r);
+	if(q.first == NULL) return bg_color;
+	auto final_color = get_acc_illumination(r, q);
+}
+
+
+
+
