@@ -3,8 +3,37 @@
 #include <fstream>
 #include <cmath>
 
-void parse_vcs(istream &fin){
+VCS parse_vcs(istream &fin){
+	string temp;
+	VCS vcs;
+	u = vector<float>(4,1);
+	v = vector<float>(4,1);
+	n = vector<float>(4,1);
+	eye_vcs = vector<float>(4,1);
+	origin_vcs = vector<float>(4,1);
+	window = vector<float>(4,0);
 	
+	fin >> temp >> vcs.u[0] >> vcs.u[1] >> vcs.u[2];
+	fin >> temp >> vcs.v[0] >> vcs.v[1] >> vcs.v[2];
+	fin >> temp >> vcs.n[0] >> vcs.n[1] >> vcs.n[2];
+	fin >> temp >> vcs.eye_vcs[0] >> vcs.eye_vcs[1] >> vcs.eye_vcs[2];
+	fin >> temp >> vcs.origin_vcs[0] >> vcs.origin_vcs[1] >> vcs.origin_vcs[2];
+	fin >> temp >> vcs.window[0] >> vcs.window[1] >> vcs.window[2] >> vcs.window[3];
+}
+
+vector<LightSrc> parse_light_source(int n, istream &fin){
+	string temp;
+	vector<LightSrc> v;
+	for(int i=0; i<n; ++i){
+		vector<float> src(4,1);
+		float intensity;
+		fin >> temp;
+		fin >> src[0] >> src[1] >> src[2];
+		fin >> temp;
+		fin >> intensity;
+		v.emplace_back(src, intensity);
+	}
+	return v;
 }
 
 void parse_sphere(int n, vector<Object> obj_vector, istream &fin){

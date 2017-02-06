@@ -11,6 +11,10 @@ struct LightSrc
 {
 	vector<float> src;
 	float intensity;
+	LightSrc(vector<float> src, float intensity){
+		this->src = src;
+		this->intensity = intensity;
+	}
 };
 
 class Scene
