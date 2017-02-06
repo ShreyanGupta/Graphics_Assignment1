@@ -160,16 +160,15 @@ void Matrix::print_Inv()
 }
 
 Ray Matrix::transform_inv(Ray &r){
-	cout << "inside transform_inv\n";
-	r.print();
 	auto d = r.get_d();
 	auto p = r.get_p();
-	for(int i=0; i<3; ++i) p[i] -= t_1[4][i];
+	for(int i=0; i<3; ++i) p[i] -= t[3][i];
 	vector<float> new_d(d);
 	vector<float> new_p(p);
+	print_Inv();
 	for(int i=0; i<3; ++i){
-		new_p[i] = p[0]*t_1[0][i] + p[1]*t_1[1][i] + p[0]*t_1[2][i];
-		new_d[i] = d[0]*t_1[0][i] + d[1]*t_1[1][i] + d[0]*t_1[2][i];
+		new_p[i] = p[0]*t_1[0][i] + p[1]*t_1[1][i] + p[2]*t_1[2][i];
+		new_d[i] = d[0]*t_1[0][i] + d[1]*t_1[1][i] + d[2]*t_1[2][i];
 	}
 	return Ray(new_d, new_p);
 }
@@ -177,7 +176,7 @@ Ray Matrix::transform_inv(Ray &r){
 vector<float> Matrix::transform_inv_transpose(vector<float> v){
 	vector<float> new_v(4,1);
 	for(int i=0; i<3; ++i){
-		new_v[i] = v[0]*t_1[i][0] + v[1]*t_1[i][1] + v[0]*t_1[i][2];
+		new_v[i] = v[0]*t_1[i][0] + v[1]*t_1[i][1] + v[2]*t_1[i][2];
 	}
 	return new_v;
 }

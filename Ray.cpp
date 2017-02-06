@@ -10,6 +10,7 @@ Ray::Ray(){
 Ray::Ray(vector<float> d, vector<float> p){
 	this->d = d;
 	this->p = p;
+	a = b = c = 0;
 	for(int i=0; i<3; ++i){
 		a += d[i] * d[i];
 		b += p[i] * d[i];

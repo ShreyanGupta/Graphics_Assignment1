@@ -5,7 +5,6 @@ using namespace std;
 
 VCS parse_vcs(istream &fin);
 
-
 int main(int argc, char const *argv[])
 {
 	// ifstream fin("inputs/" + (string)(argv[1]));
@@ -58,7 +57,10 @@ int main(int argc, char const *argv[])
 	cout << vcs.obj_vec.size() << endl;
 	for(auto ptr : vcs.obj_vec){
 		auto intersection = ptr->intersection(r);
-		cout << intersection.first << " " << endl;
+		cout << "int " << intersection.first << " point ";
+		for(auto i : intersection.second) cout << i << " "; cout << endl;
+		auto normal = ptr->normal(r,intersection);
+		normal.print();
 	}
 	
 	return 0;
