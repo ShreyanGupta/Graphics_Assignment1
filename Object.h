@@ -1,14 +1,19 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include "Matrix.h"
+#include "Ray.h"
+
 #include <vector>
 #include <utility>
 
+using namespace std;
+
 class Object{
-	Matrix t;
+public:	
 	vector<float> k_ads;
 	vector<int> color;
-public:	
+	Matrix t;
 	Object();
 	void set_color(int r, int g, int b);
 	virtual Ray normal(Ray r, pair<float, vector<float> > &pr) = 0;
@@ -17,7 +22,10 @@ public:
 };
 
 class Sphere : public Object {
+public:
 	float radius;
+	pair<float, vector<float> > intersection(Ray r);
+	Ray normal(Ray r, pair<float, vector<float> > &pr);
 };
 
 
@@ -28,10 +36,13 @@ class Triangle : public Object {
 	vector<float> nml;
 
 	
+public:
 	Triangle() : Object();
 
 	void Calc_Normal();
 
+	pair<float, vector<float> > intersection(Ray r);
+	Ray normal(Ray r, pair<float, vector<float> > &pr);
 };
 // class Polygon : public Object {
 // 	vector< pair<float, float> > pts;

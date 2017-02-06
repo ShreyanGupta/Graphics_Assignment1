@@ -69,7 +69,7 @@ void Ray::add_offset(vector<float> &o)
 	}
 }
 
-void RAy::add_dirn(vector<float> &dn)
+void Ray::add_dirn(vector<float> &dn)
 {
 	a = b = 0;
 	for (int i = 0; i < 3; i++)

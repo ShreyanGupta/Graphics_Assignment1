@@ -24,11 +24,11 @@ Ray Sphere::normal(Ray r, pair<float, vector<float> > &pr){
 pair<float, vector<float> > Sphere::intersection(Ray r){
 	Ray t_r = t.transform_inv(r);
 	auto abc = t_r.get_abc();
-	abc.get<2> -= radius*radius;
-	float disc = abc.get<1>() * abc.get<1>() - abc.get<0>() * abc.get<2>();
+	get<2>(abc) -= radius*radius;
+	float disc = get<1>(abc) * get<1>(abc) - get<0>(abc) * get<2>(abc);
 	if(disc < 0) return make_pair(-2, vector<float>());
 	else{
-		float tt = (-abc.get<1>() - sqrt(disc))/abc.get<0>();
+		float tt = (-get<1>(abc) - sqrt(disc))/get<0>(abc);
 		return make_pair(tt, t_r.get_point(tt));
 	}
 }

@@ -159,7 +159,7 @@ void Matrix::print_Inv()
 	}
 }
 
-Ray Matrix::transform_inv(Ray r){
+Ray Matrix::transform_inv(Ray &r){
 	auto d = r.get_d();
 	auto p = r.get_p();
 	for(int i=0; i<3; ++i) p[i] -= t_1[4][i];
@@ -172,12 +172,12 @@ Ray Matrix::transform_inv(Ray r){
 	return Ray(new_d, new_p);
 }
 
-void Matrix::transform_inv_transpose(vector<float> &v){
+vector<float> Matrix::transform_inv_transpose(vector<float> v){
 	vector<float> new_v(4,1);
 	for(int i=0; i<3; ++i){
 		new_v[i] = v[0]*t_1[i][0] + v[1]*t_1[i][1] + v[0]*t_1[i][2];
 	}
-	for(int i=0; i<3; ++i) v[i] = new_v[i];
+	return new_v;
 }
 
 

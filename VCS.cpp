@@ -22,11 +22,11 @@ void VCS::generate_Rays()
 	float del_x = (window[1] - window[0])/pixel_x;
 	float del_y = (window[2] - window[3])/pixel_y;
 	for (int i = 0; i < 4; i++)
-		M[0][i] = u[i];
+		M.t[0][i] = u[i];
 	for (int i = 0; i < 4; i++)
-		M[1][i] = v[i];
+		M.t[1][i] = v[i];
 	for (int i = 0; i < 4; i++)
-		M[2][i] = n[i];
+		M.t[2][i] = n[i];
 	// M is ready!
 	vector<float> p_e (4);
 	p_e[0] = window[0] - eye_vcs[0];

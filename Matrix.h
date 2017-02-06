@@ -30,7 +30,7 @@ struct Matrix
 	void print_Inv();
 
 	Ray transform_inv(Ray &r);
-	void transform_inv_transpose(vector<float> &v);
+	vector<float> transform_inv_transpose(vector<float> v);
 	
 	private:
 	 void Cofactor(int,int,vector<vector<float> >&,vector<vector<float> >&,int);

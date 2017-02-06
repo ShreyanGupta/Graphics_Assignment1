@@ -1,4 +1,5 @@
-#include "Object.h"
+// #include "Object.h"
+#include "VCS.h"
 
 #include <fstream>
 #include <cmath>
@@ -23,7 +24,7 @@ VCS parse_vcs(istream &fin){
 	fin >> temp >> vcs.bg_color[0] >> vcs.bg_color[1] >> vcs.bg_color[2];
 	vcs.set_bg_color();
 
-	while((fin >> temp).compare("end") != 0){
+	while((fin >> temp, temp).compare("end") != 0){
 		if(temp.compare("light-sources:") == 0){
 			int n;
 			fin >> n;
@@ -32,14 +33,16 @@ VCS parse_vcs(istream &fin){
 		else if(temp.compare("spheres:") == 0){
 			int n;
 			fin >> n;
-			parse_sphere(n, vcs.obj_vec fin);
+			parse_sphere(n, vcs.obj_vec, fin);
 		}
 		else if(temp.compare("triangles:") == 0){
 			int n;
 			fin >> n;
-			parse_polygons(n, vcs.obj_vec fin);
+			parse_polygons(n, vcs.obj_vec, fin);
 		}
 	}
+
+	return vcs;
 }
 
 vector<LightSrc> parse_light_source(int n, istream &fin){
@@ -61,21 +64,21 @@ void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
 	string temp;
 	for(int i=0; i<n; ++i){
 		Sphere sphere;
-		while((fin >> temp).compare("end") != 0){
+		while((fin >> temp, temp).compare("end") != 0){
 			if(temp.compare("c:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
 				sphere.t *= Matrix(1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1);
 			}
 			else if(temp.compare("r:") == 0){
-				float r
+				float r;
 				sphere.radius = r;
 			}
 			else if(temp.compare("rotate:") == 0){
 				float angle;
 				fin >> temp >> angle;
-				float s = sin(angle * PI/180);
-				float c = cos(angle * PI/180);
+				float s = sin(angle * M_PI/180);
+				float c = cos(angle * M_PI/180);
 				if(temp.compare("x") == 0) sphere.t *= Matrix(1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1);
 				if(temp.compare("y") == 0) sphere.t *= Matrix(c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1);
 				if(temp.compare("z") == 0) sphere.t *= Matrix(c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1);
