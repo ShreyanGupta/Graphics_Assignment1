@@ -19,9 +19,9 @@ i: 19
 spheres: 1
 c: 0 0 3
 r: 2
-rotate: x 30
-rotate: y 30
-rotate: z 45
+rotate: x 00
+rotate: y 00
+rotate: z 00
 shear: 0 0 0 0 0 0
 scale: 1 1 1
 color: 10 20 50
