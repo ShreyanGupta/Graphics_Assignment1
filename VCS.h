@@ -10,6 +10,17 @@
 
 using namespace std;
 
+Ray make_ray(float a, float b, float c, float d, float e, float f){
+	vector<float> x(4,1), y(4,1);
+	x[0] = a;
+	x[1] = b;
+	x[2] = c;
+	y[0] = d;
+	y[1] = e;
+	y[2] = f;
+	return Ray(x,y);
+}
+
 struct LightSrc
 {
 	vector<float> src;
