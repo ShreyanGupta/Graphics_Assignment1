@@ -3,15 +3,14 @@
 #include <fstream>
 #include <cmath>
 
+void parse_sphere(int n, vector<Object> obj_vector, istream &fin);
+void parse_polygons(int n, vector<Object> obj_vector, istream &fin);
+vector<LightSrc> parse_light_source(int n, istream &fin);
+
+
 VCS parse_vcs(istream &fin){
 	string temp;
 	VCS vcs;
-	u = vector<float>(4,1);
-	v = vector<float>(4,1);
-	n = vector<float>(4,1);
-	eye_vcs = vector<float>(4,1);
-	origin_vcs = vector<float>(4,1);
-	window = vector<float>(4,0);
 	
 	fin >> temp >> vcs.u[0] >> vcs.u[1] >> vcs.u[2];
 	fin >> temp >> vcs.v[0] >> vcs.v[1] >> vcs.v[2];
@@ -19,6 +18,28 @@ VCS parse_vcs(istream &fin){
 	fin >> temp >> vcs.eye_vcs[0] >> vcs.eye_vcs[1] >> vcs.eye_vcs[2];
 	fin >> temp >> vcs.origin_vcs[0] >> vcs.origin_vcs[1] >> vcs.origin_vcs[2];
 	fin >> temp >> vcs.window[0] >> vcs.window[1] >> vcs.window[2] >> vcs.window[3];
+	fin >> temp >> vcs.pixel_x >> vcs.pixel_y;
+	fin >> temp >> vcs.Ia;
+	fin >> temp >> vcs.bg_color[0] >> vcs.bg_color[1] >> vcs.bg_color[2];
+	vcs.set_bg_color();
+
+	while((fin >> temp).compare("end") != 0){
+		if(temp.compare("light-sources:") == 0){
+			int n;
+			fin >> n;
+			vcs.lights = parse_light_source(n,fin);
+		}
+		else if(temp.compare("spheres:") == 0){
+			int n;
+			fin >> n;
+			parse_sphere(n, vcs.obj_vec fin);
+		}
+		else if(temp.compare("polygons:") == 0){
+			int n;
+			fin >> n;
+			parse_polygons(n, vcs.obj_vec fin);
+		}
+	}
 }
 
 vector<LightSrc> parse_light_source(int n, istream &fin){
@@ -46,11 +67,11 @@ void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
 				fin >> x >> y >> z;
 				sphere.t *= Matrix(1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1);
 			}
-			if(temp.compare("r:") == 0){
+			else if(temp.compare("r:") == 0){
 				float r
 				sphere.radius = r;
 			}
-			if(temp.compare("rotate:") == 0){
+			else if(temp.compare("rotate:") == 0){
 				float angle;
 				fin >> temp >> angle;
 				float s = sin(angle * PI/180);
@@ -59,22 +80,22 @@ void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
 				if(temp.compare("y") == 0) sphere.t *= Matrix(c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1);
 				if(temp.compare("z") == 0) sphere.t *= Matrix(c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1);
 			}
-			if(temp.compare("shear:") == 0){
+			else if(temp.compare("shear:") == 0){
 				float c1, c2, c3, c4, c5, c6;
 				fin >> c1 >> c2 >> c3 >> c4 >> c5 >> c6;
 				sphere.t *= Matrix(1,c1,c2,0, c3,1,c4,0, c5,c6,1,0, 0,0,0,1);
 			}
-			if(temp.compare("scale:") == 0){
+			else if(temp.compare("scale:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
 				sphere.t *= Matrix(x,0,0,0, 0,y,0,0, 0,0,z,0, 0,0,0,1);
 			}
-			if(temp.compare("color:") == 0){
+			else if(temp.compare("color:") == 0){
 				float r, g, b;
 				fin >> r >> g >> b;
 				sphere.set_color(r,g,b);
 			}
-			if(temp.compare("K:") == 0){
+			else if(temp.compare("K:") == 0){
 				float ka, kd, ks;
 				fin >> ka >> kd >> ks;
 				sphere.k_ads[0] = ka;
@@ -86,3 +107,8 @@ void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
 		obj_vector.push_back(sphere);
 	}
 }
+
+void parse_polygons(int n, vector<Object> obj_vector, istream &fin){
+
+}
+
