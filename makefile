@@ -1,11 +1,15 @@
-CFLAGS = -c -std=c++11 -Ofast -march=native
-LFLAGS = -std=c++11 -Ofast -march=native
-OBJ = Matrix.o VCS.o Ray.o Object.o parse.o
+# CFLAGS = -c -std=c++11 -Ofast -march=native
+CFLAGS = -c -std=c++11 -g
+LFLAGS = -std=c++11
+OBJ = Matrix.o VCS.o Ray.o Object.o parse.o main.o
 
 all : out
 
-out: $(OBJ) main.o
-	g++ $(LFLAGS) $(OBJ) main.o -o a
+debug: out
+	gdb out
+
+out: $(OBJ)
+	g++ $(LFLAGS) $(OBJ) -o out
 
 Matrix.o : Matrix.cpp Matrix.h
 	g++ $(CFLAGS) Matrix.cpp
@@ -29,4 +33,4 @@ main.o : main.cpp Matrix.h
 
 clean : 
 	rm *.o
-	rm p1
+	rm out

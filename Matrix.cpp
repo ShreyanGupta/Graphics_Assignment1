@@ -159,7 +159,7 @@ void Matrix::print_Inv()
 	}
 }
 
-Ray Matrix::transform_inv(Ray r){
+Ray Matrix::transform_inv(Ray &r){
 	auto d = r.get_d();
 	auto p = r.get_p();
 	for(int i=0; i<3; ++i) p[i] -= t_1[4][i];
