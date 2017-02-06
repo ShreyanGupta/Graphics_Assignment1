@@ -57,3 +57,25 @@ vector<float> Ray::get_point(float t){
 	}
 	return ret;
 }
+
+void Ray::add_offset(vector<float> &o)
+{
+	b = c = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		p[i] += o[i];
+		b += p[i]*d[i];
+		c += p[i]*p[i];
+	}
+}
+
+void RAy::add_dirn(vector<float> &dn)
+{
+	a = b = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		d[i] += dn[i];
+		a += d[i]*d[i];
+		b += p[i]*d[i];
+	}
+}

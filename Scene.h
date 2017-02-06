@@ -16,6 +16,7 @@ struct LightSrc
 class Scene
 {
 	VCS vcs;
+	float Ia;
 	vector<Object> obj_vec;
 	vector<LightSrc> lights;
 };

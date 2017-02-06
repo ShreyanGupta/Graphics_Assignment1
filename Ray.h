@@ -15,12 +15,17 @@ public:
 	// Ray operator*(const Matrix &m);
 	Ray();
 	Ray(vector<float> d, vector<float> p);
+
 	vector<float> get_d() { return d;}
 	vector<float> get_p() { return p;}
-	void set_d(vector<float> d);
-	void set_p(vector<float> p);
 	tuple<float, float, float> get_abc();
 	vector<float> get_point(float t);
+
+	void set_d(vector<float> d);
+	void set_p(vector<float> p);
+
+	void add_offset(vector<float> &o);
+	void add_dirn(vector<float> &dn);
 };
 
 #endif
