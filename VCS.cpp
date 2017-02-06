@@ -79,13 +79,30 @@ pair<Object *, pair<float, vector<float> > > VCS::intersect(Ray &r){
 	return make_pair(first_obj, t_min);
 }
 
-lskdahflksdhfjl VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
-	auto final_color = //ambient
+vector<int> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
+	// auto final_color = //ambient
+	auto ans = ambient!;
 	auto normal = input.first->normal(r, input.second);
 	auto reflected = input.first->reflected(r, normal);
+	for (auto light : lights)
+	{
+		// Ray : p ->
+		auto np = normal.get_p();
+		auto d = light.src;
+		for (int i = 0; i < 3; i++)
+			d[i] -= np[i];
+		Ray p_src(d, np);
+		auto l_in = intersect(p_src);
+		if (l_in.first != NULL)
+			continue;
+		// add Id, Is.
+		ans += input.second.first->k_ads[1] * light.intensity * dot(p_src, normal);
+		ans += input.second.first->k_ads[2] * light.intensity * pow(dot(p_src, r), s_pow);
+	}
+	return ans;
 }
 
-vector<float> VCS::recursive_ray_trace(Ray &r, int n){
+vector<int> VCS::recursive_ray_trace(Ray &r, int n){
 	if(n > limit) return bg_color;
 	auto q = intersect(r);
 	if(q.first == NULL) return bg_color;

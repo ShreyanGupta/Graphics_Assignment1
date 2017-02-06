@@ -13,15 +13,18 @@ void Object::set_color(int r, int g, int b){
 	color[2] = std::max(0, std::min(255, b));
 }
 
-Ray Sphere::normal(Ray r, pair<float, vector<float> > &pr){
+Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
 	return Ray(t.transform_inv_transpose(pr.second), r.get_point(pr.first));
 }
 
-// Ray Sphere::reflected_ray(Ray r){
+Ray Sphere::reflected(Ray &r, Ray &n){
 	
-// }
+}
 
-pair<float, vector<float> > Sphere::intersection(Ray r){
+pair<float, vector<float> > Sphere::intersection(Ray &r){
+	r.print();
+	t.print();
+	t.print_Inv();
 	Ray t_r = t.transform_inv(r);
 	cout << "print t_r\n"; t_r.print(); cout << endl;
 	auto abc = t_r.get_abc();
@@ -34,7 +37,8 @@ pair<float, vector<float> > Sphere::intersection(Ray r){
 	}
 }
 
-Triangle::Triangle() : Object()
+
+Triangle::Triangle()
 {
 	a = vector<float> (4,1);
 	b = vector<float> (4,1);
@@ -58,17 +62,17 @@ void Triangle::Calc_Normal()
 	nml[2] = axbx*aycy - ayby*axcx;
 }
 
-Ray Triangle::normal(Ray r, pair<float, vector<float> > &pr){
+Ray Triangle::normal(Ray &r, pair<float, vector<float> > &pr){
 	vector<float> p = r.get_point(pr.first);
 	Ray ans (nml,p);
 	return ans;
 }
 
-// Ray Ploygon::reflected_ray(Ray r){
+Ray Triangle::reflected(Ray &r, Ray &n){
 	
-// }
+}
 
-pair<float, vector<float> > Triangle::intersection(Ray r){
+pair<float, vector<float> > Triangle::intersection(Ray &r){
 	// p - 
 	Matrix x;
 	for (int i = 0; i < 4; i++)

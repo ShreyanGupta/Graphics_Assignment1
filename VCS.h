@@ -57,8 +57,9 @@ public:
 	void generate_Rays();
 	void set_bg_color();
 	
-	vector<float> recursive_ray_trace(Ray&,int);
+	vector<int> recursive_ray_trace(Ray&,int);
 	pair<Object *, pair<float, vector<float> > > intersect(Ray &r);
+	vector<int> get_acc_illumination(Ray &, pair<Object *, pair<float, vector<float> > > &);
 };
 
 #endif
