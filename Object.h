@@ -53,14 +53,6 @@ public:
 // 	Ray plane;
 // };
 
-namespace Types
-{
-	typedef std::unique_ptr<Sphere> Sph_Ptr;
-	typedef std::unique_ptr<Triangle> Tri_Ptr;
-	typedef std::unique_ptr<Object> Obj_Ptr;
-}
-
-using namespace Types;
 
 
 #endif

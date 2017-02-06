@@ -26,7 +26,7 @@ Object.o : Object.cpp Object.h
 parse.o : parse.cpp
 	g++ $(CFLAGS) parse.cpp
 
-main.o : main.cpp Matrix.h
+main.o : main.cpp Object.h
 	g++ $(CFLAGS) main.cpp
 
 

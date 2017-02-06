@@ -35,7 +35,7 @@ public:
 	int pixel_y;
 
 	float Ia;
-	vector<Obj_Ptr> obj_vec;
+	vector<Object*> obj_vec;
 	vector<LightSrc> lights;
 
 	vector<int> bg_color;

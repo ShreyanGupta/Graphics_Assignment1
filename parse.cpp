@@ -4,8 +4,8 @@
 #include <fstream>
 #include <cmath>
 
-void parse_sphere(int n, vector<Obj_Ptr> obj_vector, istream &fin);
-void parse_triangles(int n, vector<Obj_Ptr> obj_vector, istream &fin);
+void parse_sphere(int n, vector<Object*> obj_vector, istream &fin);
+void parse_triangles(int n, vector<Object*> obj_vector, istream &fin);
 vector<LightSrc> parse_light_source(int n, istream &fin);
 
 
@@ -60,10 +60,10 @@ vector<LightSrc> parse_light_source(int n, istream &fin){
 	return v;
 }
 
-void parse_sphere(int n, vector<Obj_Ptr> obj_vector, istream &fin){
+void parse_sphere(int n, vector<Object*> obj_vector, istream &fin){
 	string temp;
 	for(int i=0; i<n; ++i){
-		Sph_Ptr sphere (new Sphere);
+		Sphere *sphere = new Sphere();
 		while((fin >> temp, temp).compare("end") != 0){
 			if(temp.compare("c:") == 0){
 				float x, y, z;
@@ -107,21 +107,21 @@ void parse_sphere(int n, vector<Obj_Ptr> obj_vector, istream &fin){
 			}
 		}
 		sphere->t.Calc_Inverse();
-		obj_vector.push_back(std::move(sphere));
+		obj_vector.push_back(sphere);
 	}
 }
 
-void parse_triangles(int n, vector<Obj_Ptr> obj_vector, istream &fin){
+void parse_triangles(int n, vector<Object*> obj_vector, istream &fin){
 	string temp;
 	for (int i = 0; i < n; i++)
 	{
-		Tri_Ptr t (new Triangle);
+		Triangle* t = new Triangle();
 		fin >> t->a[0] >> t->a[1] >> t->a[2];
 		fin >> t->b[0] >> t->b[1] >> t->b[2];
 		fin >> t->c[0] >> t->c[1] >> t->c[2];
 		fin >> temp >> t->k_ads[0] >> t->k_ads[1] >> t->k_ads[2];
 		t->Calc_Normal();
-		obj_vector.push_back(std::move(t));
+		obj_vector.push_back(t);
 	}
 }
 
