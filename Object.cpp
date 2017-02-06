@@ -33,6 +33,30 @@ pair<float, vector<float> > Sphere::intersection(Ray r){
 	}
 }
 
+Triangle::Triangle() : Object()
+{
+	a = vector<float> (4,1);
+	b = vector<float> (4,1);
+	c = vector<float> (4,1);
+	nml = vector<float> (4,1);
+}
+
+void Triangle::Calc_Normal()
+{
+	// cross prod (a-b)*(a-c)
+	float axbx = a[0] - b[0];
+	float ayby = a[1] - b[1];
+	float azbz = a[2] - b[2];
+
+	float axcx = a[0] - c[0];
+	float aycy = a[1] - c[1];
+	float azcz = a[2] - c[2];
+
+	nml[0] = ayby*azcz - azbz*aycy;
+	nml[1] = azbz*axcx - axbx*azcz;
+	nml[2] = axbx*aycy - ayby*axcx;
+}
+
 Ray Triangle::normal(Ray r, pair<float, vector<float> > &pr){
 	return r;
 }

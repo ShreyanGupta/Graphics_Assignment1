@@ -4,7 +4,7 @@
 #include <cmath>
 
 void parse_sphere(int n, vector<Object> obj_vector, istream &fin);
-void parse_polygons(int n, vector<Object> obj_vector, istream &fin);
+void parse_triangles(int n, vector<Object> obj_vector, istream &fin);
 vector<LightSrc> parse_light_source(int n, istream &fin);
 
 
@@ -34,7 +34,7 @@ VCS parse_vcs(istream &fin){
 			fin >> n;
 			parse_sphere(n, vcs.obj_vec fin);
 		}
-		else if(temp.compare("polygons:") == 0){
+		else if(temp.compare("triangles:") == 0){
 			int n;
 			fin >> n;
 			parse_polygons(n, vcs.obj_vec fin);
@@ -108,7 +108,17 @@ void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
 	}
 }
 
-void parse_polygons(int n, vector<Object> obj_vector, istream &fin){
-
+void parse_triangles(int n, vector<Object> obj_vector, istream &fin){
+	string temp;
+	for (int i = 0; i < n; i++)
+	{
+		Triangle t;
+		fin >> t.a[0] >> t.a[1] >> t.a[2];
+		fin >> t.b[0] >> t.b[1] >> t.b[2];
+		fin >> t.c[0] >> t.c[1] >> t.c[2];
+		fin >> temp >> t.k_ads[0] >> t.k_ads[1] >> t.k_ads[2];
+		t.Calc_Normal();
+		obj_vector.push_back(t);
+	}
 }
 
