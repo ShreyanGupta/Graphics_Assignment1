@@ -1,7 +1,5 @@
 #include "Ray.h"
 
-#include <cmath>
-#include <utility>
 
 Ray::Ray(){
 	d = vector<float>(4,0);
@@ -47,8 +45,8 @@ void Ray::set_p(vector<float> p){
 	}
 }
 
-tuple<float, float, float> Ray::get_abc(){
-	return make_tuple(a,b,c);
+std::tuple<float, float, float> Ray::get_abc(){
+	return std::make_tuple(a,b,c);
 }
 
 vector<float> Ray::get_point(float t){

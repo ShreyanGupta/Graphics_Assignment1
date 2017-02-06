@@ -4,8 +4,8 @@
 #include <fstream>
 #include <cmath>
 
-void parse_sphere(int n, vector<Object> obj_vector, istream &fin);
-void parse_triangles(int n, vector<Object> obj_vector, istream &fin);
+void parse_sphere(int n, vector<Obj_Ptr> obj_vector, istream &fin);
+void parse_triangles(int n, vector<Obj_Ptr> obj_vector, istream &fin);
 vector<LightSrc> parse_light_source(int n, istream &fin);
 
 
@@ -38,7 +38,7 @@ VCS parse_vcs(istream &fin){
 		else if(temp.compare("triangles:") == 0){
 			int n;
 			fin >> n;
-			parse_polygons(n, vcs.obj_vec, fin);
+			parse_triangles(n, vcs.obj_vec, fin);
 		}
 	}
 
@@ -60,68 +60,68 @@ vector<LightSrc> parse_light_source(int n, istream &fin){
 	return v;
 }
 
-void parse_sphere(int n, vector<Object> obj_vector, istream &fin){
+void parse_sphere(int n, vector<Obj_Ptr> obj_vector, istream &fin){
 	string temp;
 	for(int i=0; i<n; ++i){
-		Sphere sphere;
+		Sph_Ptr sphere (new Sphere);
 		while((fin >> temp, temp).compare("end") != 0){
 			if(temp.compare("c:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
-				sphere.t *= Matrix(1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1);
+				sphere->t *= Matrix(1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1);
 			}
 			else if(temp.compare("r:") == 0){
 				float r;
-				sphere.radius = r;
+				sphere->radius = r;
 			}
 			else if(temp.compare("rotate:") == 0){
 				float angle;
 				fin >> temp >> angle;
 				float s = sin(angle * M_PI/180);
 				float c = cos(angle * M_PI/180);
-				if(temp.compare("x") == 0) sphere.t *= Matrix(1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1);
-				if(temp.compare("y") == 0) sphere.t *= Matrix(c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1);
-				if(temp.compare("z") == 0) sphere.t *= Matrix(c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1);
+				if(temp.compare("x") == 0) sphere->t *= Matrix(1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1);
+				if(temp.compare("y") == 0) sphere->t *= Matrix(c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1);
+				if(temp.compare("z") == 0) sphere->t *= Matrix(c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1);
 			}
 			else if(temp.compare("shear:") == 0){
 				float c1, c2, c3, c4, c5, c6;
 				fin >> c1 >> c2 >> c3 >> c4 >> c5 >> c6;
-				sphere.t *= Matrix(1,c1,c2,0, c3,1,c4,0, c5,c6,1,0, 0,0,0,1);
+				sphere->t *= Matrix(1,c1,c2,0, c3,1,c4,0, c5,c6,1,0, 0,0,0,1);
 			}
 			else if(temp.compare("scale:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
-				sphere.t *= Matrix(x,0,0,0, 0,y,0,0, 0,0,z,0, 0,0,0,1);
+				sphere->t *= Matrix(x,0,0,0, 0,y,0,0, 0,0,z,0, 0,0,0,1);
 			}
 			else if(temp.compare("color:") == 0){
 				float r, g, b;
 				fin >> r >> g >> b;
-				sphere.set_color(r,g,b);
+				sphere->set_color(r,g,b);
 			}
 			else if(temp.compare("K:") == 0){
 				float ka, kd, ks;
 				fin >> ka >> kd >> ks;
-				sphere.k_ads[0] = ka;
-				sphere.k_ads[1] = kd;
-				sphere.k_ads[2] = ks;
+				sphere->k_ads[0] = ka;
+				sphere->k_ads[1] = kd;
+				sphere->k_ads[2] = ks;
 			}
 		}
-		sphere.t.Calc_Inverse();
-		obj_vector.push_back(sphere);
+		sphere->t.Calc_Inverse();
+		obj_vector.push_back(std::move(sphere));
 	}
 }
 
-void parse_triangles(int n, vector<Object> obj_vector, istream &fin){
+void parse_triangles(int n, vector<Obj_Ptr> obj_vector, istream &fin){
 	string temp;
 	for (int i = 0; i < n; i++)
 	{
-		Triangle t;
-		fin >> t.a[0] >> t.a[1] >> t.a[2];
-		fin >> t.b[0] >> t.b[1] >> t.b[2];
-		fin >> t.c[0] >> t.c[1] >> t.c[2];
-		fin >> temp >> t.k_ads[0] >> t.k_ads[1] >> t.k_ads[2];
-		t.Calc_Normal();
-		obj_vector.push_back(t);
+		Tri_Ptr t (new Triangle);
+		fin >> t->a[0] >> t->a[1] >> t->a[2];
+		fin >> t->b[0] >> t->b[1] >> t->b[2];
+		fin >> t->c[0] >> t->c[1] >> t->c[2];
+		fin >> temp >> t->k_ads[0] >> t->k_ads[1] >> t->k_ads[2];
+		t->Calc_Normal();
+		obj_vector.push_back(std::move(t));
 	}
 }
 

@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <utility>
+#include <cmath>
+#include <tuple>
 
 using namespace std;
 
