@@ -30,14 +30,15 @@ public:
 
 
 class Triangle : public Object {
+
+	
+public:
 	vector<float> a;
 	vector<float> b;
 	vector<float> c;
 	vector<float> nml;
 
-	
-public:
-	Triangle() : Object();
+	Triangle();
 
 	void Calc_Normal();
 

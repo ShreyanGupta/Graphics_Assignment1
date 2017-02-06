@@ -1,6 +1,7 @@
 #include "Ray.h"
 
 #include <cmath>
+#include <utility>
 
 Ray::Ray(){
 	d = vector<float>(4,0);
