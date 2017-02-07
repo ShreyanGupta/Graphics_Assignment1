@@ -13,6 +13,7 @@
 using namespace std;
 
 #define eps 0.000001
+#define s_pow 4
 
 class Object{
 public:	
