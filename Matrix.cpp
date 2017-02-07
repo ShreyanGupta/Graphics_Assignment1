@@ -165,7 +165,7 @@ Ray Matrix::transform_inv(Ray &r){
 	for(int i=0; i<3; ++i) p[i] -= t[3][i];
 	vector<float> new_d(d);
 	vector<float> new_p(p);
-	print_Inv();
+	// print_Inv();
 	for(int i=0; i<3; ++i){
 		new_p[i] = p[0]*t_1[0][i] + p[1]*t_1[1][i] + p[2]*t_1[2][i];
 		new_d[i] = d[0]*t_1[0][i] + d[1]*t_1[1][i] + d[2]*t_1[2][i];

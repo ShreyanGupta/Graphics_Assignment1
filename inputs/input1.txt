@@ -1,41 +1,41 @@
 u: 0 1 0
 v: 1 0 0
 n: 0 0 -1
-eye: 10 0 -7
+eye: 0 0 -7
 Origin: 0 0 0
-Window: -10 10 10 -10
-No_pixels: 200 200
-Ia: 10
-BgColor: 120 120 120
+Window: -4 4 4 -4
+No_pixels: 1000 1000
+Ia: 0.1
+BgColor: 0 0 0
 
 light-sources: 3
 c: 5 5 7
-i: 15
+i: 0.7
 c: 10 4 2
-i: 17
+i: 0.8
 c: 7 0 -1
-i: 19
+i: 0.77
 
 spheres: 1
-c: 0 0 5
+c: 0 0 -5
 r: 1
-rotate: x 01
+rotate: x 00
 rotate: y 00
 rotate: z 00
 shear: 0 0 0 0 0 0
 scale: 1 1 1
-color: 10 20 50
-K: 0.1 0.1 0.1
+color: 100 100 255
+K: 0.8 0.9 0.7
 end 
 
-triangles: 2
+triangles: 0
 0 -1 7
 11 3 2
 5 5 6
-K: 0.2 0.2 0.2
+K: 0.87 0.9 0.5
 end
 4 2 -7
 3 6 -2
 -7 1 8
-K: 0.2 0.2 0.2
+K: 0.45 0.9 0.9
 end

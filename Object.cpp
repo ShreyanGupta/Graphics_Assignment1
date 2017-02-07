@@ -30,11 +30,11 @@ Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
 }
 
 pair<float, vector<float> > Sphere::intersection(Ray &r){
-	r.print();
-	t.print();
-	t.print_Inv();
+	// r.print();
+	// t.print(); 
+	// t.print_Inv();
 	Ray t_r = t.transform_inv(r);
-	cout << "print t_r\n"; t_r.print(); cout << endl;
+	// cout << "print t_r\n"; t_r.print(); cout << endl;
 	auto abc = t_r.get_abc();
 	get<2>(abc) -= radius*radius;
 	float disc = get<1>(abc) * get<1>(abc) - get<0>(abc) * get<2>(abc);
@@ -90,8 +90,8 @@ pair<float, vector<float> > Triangle::intersection(Ray &r){
 		x.t[3][i] = -rd[i];
 	x.t[3][3] = 0;
 	x.Calc_Inverse();
-	x.print();
-	x.print_Inv();
+	// x.print();
+	// x.print_Inv();
 	vector<float> uvwt = r.get_p();
 	uvwt = x.Inv_Vec_Mul(uvwt);
 	for (int i = 0; i < 4; i++)

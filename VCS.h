@@ -26,7 +26,7 @@ struct LightSrc
 
 class VCS
 {
-	int limit = 2;
+	int limit = 1;
 public:
 	vector<float> u;
 	vector<float> v;

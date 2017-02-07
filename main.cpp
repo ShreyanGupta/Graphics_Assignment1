@@ -62,6 +62,8 @@ int main(int argc, char const *argv[])
 
 	VCS vcs = parse_vcs(fin);
 	cout << "Parsing done! \n";
+	vcs.generate_Rays();
+	vcs.render();
 	
 	// Ray r = make_ray(0,0,1, 0,0,0);
 	// r.print();
@@ -73,13 +75,6 @@ int main(int argc, char const *argv[])
 	// 	auto normal = ptr->normal(r,intersection);
 	// 	normal.print();
 	// }
-	cout << "-----------------------------\n";
-	Ray l = make_ray(1,-1,0, 0,0,0);
-	Ray n = make_ray(0,3,0, 0,0,0);
-	l.print();
-	n.print();
-	cout << "dot " << dot(l,n) << endl;
-	reflected(l, n).print();
 	
 	return 0;
 }

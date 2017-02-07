@@ -44,11 +44,11 @@ void VCS::generate_Rays()
 
 	float del_x = (window[1] - window[0])/pixel_x;
 	float del_y = (window[2] - window[3])/pixel_y;
-	for (int i = 0; i < 4; i++)
-		M.t[0][i] = u[i];
-	for (int i = 0; i < 4; i++)
-		M.t[1][i] = v[i];
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 3; i++)
+		M.t[0][i] = v[i];
+	for (int i = 0; i < 3; i++)
+		M.t[1][i] = u[i];
+	for (int i = 0; i < 3; i++)
 		M.t[2][i] = n[i];
 	// M is ready!
 	vector<float> p_e (4);
@@ -58,6 +58,8 @@ void VCS::generate_Rays()
 	p_e[3] = 1;
 	Ray r_ij(M.Vec_Mul(p_e),M.Vec_Mul(eye_vcs));
 	r_ij.add_offset(origin_vcs);
+
+	r_ij.print();
 
 	vector<float> add_x (4,0);
 	add_x[0] = del_x;
@@ -75,11 +77,14 @@ void VCS::generate_Rays()
 
 	for (int i = 0; i < pixel_x; i++)
 	{
+		cout << i << endl;
 		r_ij.add_dirn(add_x);
 		for (int j = 0; j < pixel_y; j++)
 		{
 			// add (0,-j*dy,0,1) * M to d
 			r_ij.add_dirn(add_y);
+			// cout << "i, j = " << i << " " << j << endl;
+			// r_ij.print(); cout << endl;
 			auto rgb = recursive_ray_trace(r_ij,0);
 			for (int k = 0; k < 3; k++)
 			render_this[i][j][k] = min(rgb.first[k]*rgb.second,(float)255.0);
@@ -106,7 +111,7 @@ pair<Object *, pair<float, vector<float> > > VCS::intersect(Ray &r){
 
 pair<float,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
 	// auto final_color = //ambient
-	auto ans = Ia;
+	auto ans = input.first->k_ads[0] * Ia;
 	auto normal = input.first->normal(r, input.second);
 	auto reflected = input.first->reflected(r, normal);
 	for (auto light : lights)
@@ -131,6 +136,7 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
 	if(n > limit) return make_pair(bg_color,1);
 	auto q = intersect(r);
 	if(q.first == NULL) return make_pair(bg_color,1);
+	// if (n == 0) cout << "Not background. \n";
 	auto int_ray = get_acc_illumination(r, q);
 	float intensity = int_ray.first;
 	auto coh_Reflect = recursive_ray_trace(int_ray.second, n+1);
