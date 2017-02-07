@@ -116,6 +116,14 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
 	return make_pair(q.first->color,intensity);
 }
 
+void VCS::render()
+{
+	Mat m;
+	m = imread("img.png", 1);
+	imshow("Image", m);
+	waitkey(0);
+}
+
 
 
 

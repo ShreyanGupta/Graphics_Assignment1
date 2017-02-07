@@ -1,3 +1,5 @@
 *.pov
 *.o
 out
+OpenCV
+*.png

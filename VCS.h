@@ -56,6 +56,7 @@ public:
 	VCS();
 	void generate_Rays();
 	void set_bg_color();
+	void render();
 	
 	pair<vector<int>,float> recursive_ray_trace(Ray&,int);
 	pair<Object *, pair<float, vector<float> > > intersect(Ray &r);
