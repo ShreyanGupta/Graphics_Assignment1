@@ -93,6 +93,7 @@ pair<float,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vec
 	// auto final_color = //ambient
 	auto ans = input.first->k_ads[0] * Ia;
 	auto normal = input.first->normal(r, input.second);
+	// normal.print();
 	auto reflected = input.first->reflected(r, normal);
 	for (auto light : lights)
 	{

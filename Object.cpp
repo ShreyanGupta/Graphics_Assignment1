@@ -100,12 +100,20 @@ void Triangle::Calc_Normal()
 Ray Triangle::normal(Ray &r, pair<float, vector<float> > &pr){
 	vector<float> p = r.get_point(pr.first);
 	auto d = r.get_d();
-	if(d[0]*nml[0] + d[1]*nml[1] + d[2]*nml[2])
+	cout << "Normal TRI : ";
+	if(d[0]*nml[0] + d[1]*nml[1] + d[2]*nml[2] < 0)
+	{
+		cout << nml[0] << " " << nml[1] << " " << nml[2] << endl;
 		return Ray(nml, p);
+	}
 	else
 	{
 		for (int i = 0; i < 3; i++)
+		{
 			nml[i] *= -1;
+			cout << nml[i] << " ";
+		}
+		cout << endl;
 		return Ray(nml,p);
 	}
 }
@@ -115,19 +123,19 @@ pair<float, vector<float> > Triangle::intersection(Ray &r){
 	// x.print();
 	// x.print_Inv();
 	vector<float> s = r.get_d();
-	vector<float> p = r.get_d();
+	vector<float> p = r.get_p();
 
 	float b2s1_b1s2 = b[2]*s[1] - b[1]*s[2];
 	float b0s2_b2s0 = b[0]*s[2] - b[2]*s[0];
 	float b1s0_b0s1 = b[1]*s[0] - b[0]*s[1];
 
-	float denom = - a[0]*b2s1_b1s2 - a[1]*b0s2_b2s0 - a[2]*b1s0_b0s1;
+	float denom =  a[0]*b2s1_b1s2 + a[1]*b0s2_b2s0 + a[2]*b1s0_b0s1;
 
 	float u = (float(1.0)/denom)*( (p[0] - c[0])*b2s1_b1s2 + (p[1] - c[1])*b0s2_b2s0 + (p[2] - c[2])*b1s0_b0s1);
 
 	float v = (float(1.0)/denom)*( (p[0] - c[0])*(a[1]*s[2] - a[2]*s[1]) + (p[1] - c[1])*(a[2]*s[0] - a[0]*s[2]) + (p[2] - c[2])*(a[0]*s[1] - a[1]*s[0]) );
 	
-	float t = (float(1.0)/denom)*( (p[0] - c[0])*(a[1]*b[2] - a[2]*b[1]) + (p[1] - c[1])*(a[2]*b[0] - a[0]*b[2]) + (p[2] - c[2])*(a[0]*b[1] - a[1]*b[0]));
+	float t = (float(1.0)/denom)*( (p[0] - c[0])*(a[1]*b[2] - a[2]*b[1]) + (p[1] - c[1])*(a[2]*b[0] - a[0]*b[2]) + (p[2] - c[2])*(a[0]*b[1] - a[1]*b[0]) );
 	// for (int i = 0; i < 4; i++)
 	// 	cout << uvwt[i] << " ";
 	if (u >= eps && (v >= eps) && ((1 - u - v) >= eps))
