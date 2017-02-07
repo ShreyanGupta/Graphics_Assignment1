@@ -29,9 +29,9 @@ Object::Object(){
 }
 
 void Object::set_color(int r, int g, int b){
-	color[0] = std::max(0, std::min(255, r));
+	color[2] = std::max(0, std::min(255, r));
 	color[1] = std::max(0, std::min(255, g));
-	color[2] = std::max(0, std::min(255, b));
+	color[0] = std::max(0, std::min(255, b));
 }
 
 Ray Object::reflected(Ray &r, Ray &n){
@@ -100,10 +100,10 @@ void Triangle::Calc_Normal()
 Ray Triangle::normal(Ray &r, pair<float, vector<float> > &pr){
 	vector<float> p = r.get_point(pr.first);
 	auto d = r.get_d();
-	cout << "Normal TRI : ";
+	// cout << "Normal TRI : ";
 	if(d[0]*nml[0] + d[1]*nml[1] + d[2]*nml[2] < 0)
 	{
-		cout << nml[0] << " " << nml[1] << " " << nml[2] << endl;
+		// cout << nml[0] << " " << nml[1] << " " << nml[2] << endl;
 		return Ray(nml, p);
 	}
 	else
@@ -111,9 +111,9 @@ Ray Triangle::normal(Ray &r, pair<float, vector<float> > &pr){
 		for (int i = 0; i < 3; i++)
 		{
 			nml[i] *= -1;
-			cout << nml[i] << " ";
+			// cout << nml[i] << " ";
 		}
-		cout << endl;
+		// cout << endl;
 		return Ray(nml,p);
 	}
 }
