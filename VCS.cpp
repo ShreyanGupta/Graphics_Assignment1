@@ -11,7 +11,7 @@ Ray make_ray(float a, float b, float c, float d, float e, float f){
 	return Ray(x,y);
 }
 
-float dot(Ray p, Ray q){
+float dot(Ray &p, Ray &q){
 	auto p_d = p.get_d();
 	auto q_d = q.get_d();
 	float ans = 0;
@@ -40,6 +40,8 @@ void VCS::set_bg_color()
 
 void VCS::generate_Rays()
 {
+	render_this = vector<vector<vector<int> > > (pixel_x, vector<vector<int> > (pixel_y, vector<int> (3)));
+
 	float del_x = (window[1] - window[0])/pixel_x;
 	float del_y = (window[2] - window[3])/pixel_y;
 	for (int i = 0; i < 4; i++)
@@ -79,6 +81,8 @@ void VCS::generate_Rays()
 			// add (0,-j*dy,0,1) * M to d
 			r_ij.add_dirn(add_y);
 			auto rgb = recursive_ray_trace(r_ij,0);
+			for (int k = 0; k < 3; k++)
+			render_this[i][j][k] = min(rgb.first[k]*rgb.second,(float)255.0);
 			// RAY IN WCS:
 			// call rrt.
 		}
@@ -100,9 +104,9 @@ pair<Object *, pair<float, vector<float> > > VCS::intersect(Ray &r){
 	return make_pair(first_obj, t_min);
 }
 
-vector<int> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
+pair<float,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
 	// auto final_color = //ambient
-	auto ans = ambient!;
+	auto ans = Ia;
 	auto normal = input.first->normal(r, input.second);
 	auto reflected = input.first->reflected(r, normal);
 	for (auto light : lights)
@@ -117,17 +121,21 @@ vector<int> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<
 		if (l_in.first != NULL)
 			continue;
 		// add Id, Is.
-		ans += input.second.first->k_ads[1] * light.intensity * dot(p_src, normal);
-		ans += input.second.first->k_ads[2] * light.intensity * pow(dot(p_src, r), s_pow);
+		ans += input.first->k_ads[1] * light.intensity * -dot(r, normal);
+		ans += input.first->k_ads[2] * light.intensity * pow(dot(p_src, reflected), s_pow);
 	}
-	return ans;
+	return make_pair(ans,reflected);
 }
 
-vector<int> VCS::recursive_ray_trace(Ray &r, int n){
-	if(n > limit) return bg_color;
+pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
+	if(n > limit) return make_pair(bg_color,1);
 	auto q = intersect(r);
-	if(q.first == NULL) return bg_color;
-	auto final_color = get_acc_illumination(r, q);
+	if(q.first == NULL) return make_pair(bg_color,1);
+	auto int_ray = get_acc_illumination(r, q);
+	float intensity = int_ray.first;
+	auto coh_Reflect = recursive_ray_trace(int_ray.second, n+1);
+	intensity += coh_Reflect.second;
+	return make_pair(q.first->color,intensity);
 }
 
 

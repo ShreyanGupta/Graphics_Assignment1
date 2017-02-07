@@ -5,15 +5,16 @@ using namespace std;
 
 VCS parse_vcs(istream &fin);
 
-Ray reflected(Ray &r, Ray &n){
-	auto r_d = r.get_d();
-	auto n_d = r.get_d();
-	for(int i=0; i<3; ++i){
-		n_d[i] *= -2 * r_d[i] * n_d[i] / sqrt(get<0>(r.get_abc()) * get<0>(n.get_abc()));
-		n_d[i] += r_d[i];
-	}
-	return Ray(n_d, r.get_p());
-}
+// Ray reflected(Ray &r, Ray &n){
+// 	auto r_d = r.get_d();
+// 	auto n_d = n.get_d();
+// 	cout << get<0>(r.get_abc()) << " " << get<0>(n.get_abc()) << " " << sqrt(get<0>(r.get_abc()) / get<0>(n.get_abc())) << endl;
+// 	float factor = -2 * dot(r,n) * sqrt(get<0>(r.get_abc()) / get<0>(n.get_abc()));
+// 	for(int i=0; i<3; ++i){
+// 		n_d[i] = n_d[i] * factor + r_d[i];
+// 	}
+// 	return Ray(n_d, r.get_p());
+// }
 
 int main(int argc, char const *argv[])
 {
@@ -72,8 +73,13 @@ int main(int argc, char const *argv[])
 	// 	auto normal = ptr->normal(r,intersection);
 	// 	normal.print();
 	// }
-
-	reflected(make_ray(1,-1,0, 0,0,0), make_ray(0,1,0, 0,0,0)).print()
+	cout << "-----------------------------\n";
+	Ray l = make_ray(1,-1,0, 0,0,0);
+	Ray n = make_ray(0,3,0, 0,0,0);
+	l.print();
+	n.print();
+	cout << "dot " << dot(l,n) << endl;
+	reflected(l, n).print();
 	
 	return 0;
 }

@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+float dot(Ray &p, Ray &q);
+
 Object::Object(){
 	k_ads = vector<float>(3);
 	color = vector<int>(3);
@@ -15,10 +17,10 @@ void Object::set_color(int r, int g, int b){
 
 Ray Object::reflected(Ray &r, Ray &n){
 	auto r_d = r.get_d();
-	auto n_d = r.get_d();
+	auto n_d = n.get_d();
+	float factor = -2 * dot(r,n) * sqrt(get<0>(r.get_abc()) / get<0>(n.get_abc()));
 	for(int i=0; i<3; ++i){
-		n_d[i] *= -2 * r_d[i] * n_d[i] / sqrt(get<0>(r.get_abc()) * get<0>(n.get_abc()));
-		n_d[i] += r_d[i];
+		n_d[i] = n_d[i] * factor + r_d[i];
 	}
 	return Ray(n_d, r.get_p());
 }
