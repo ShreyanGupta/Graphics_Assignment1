@@ -55,6 +55,21 @@ void VCS::generate_Rays()
 	sub_y[1] = del_y*(pixel_y);
 	sub_y[3] = 1;
 
+
+	vector<float> add_x_avg (4,0);
+	add_x_avg[0] = del_x/3.0;
+	add_x_avg[3] = 1;
+	add_x_avg = M.Vec_Mul(add_x_avg);
+
+	vector<float> add_y_avg (4,0);
+	add_y_avg[1] = -del_y/3.0;
+	add_y_avg[3] = 1;
+	add_y_avg = M.Vec_Mul(add_y_avg);
+
+	vector<float> sub_y_avg (4,0);
+	sub_y_avg[1] = del_y;
+	sub_y_avg[3] = 1;
+
 	for (int i = 0; i < pixel_x; i++)
 	{
 		cout << i << endl;
@@ -63,13 +78,35 @@ void VCS::generate_Rays()
 		{
 			// add (0,-j*dy,0,1) * M to d
 			r_ij.add_dirn(add_y);
+					vector<float> rd = r_ij.get_d();
+					for (int x = 0; x < 3; x++)
+						rd[x] -= (add_x_avg[x] + add_y_avg[x]);
+
+		// r1 : R(-1,-1)
+					Ray r1 (rd, r_ij.get_p());
+					vector<float> avg (3,0);
+
+					for (int k = -1; k < 2; k++)
+					{
+						for (int l = -1; l < 2; l++)
+						{
+							auto rgb = recursive_ray_trace(r1,0);
+							for (int x = 0; x < 3; x++)
+								avg[x] += rgb.first[x]*rgb.second;
+							r1.add_dirn(add_y_avg);
+						}
+						r1.add_dirn(sub_y_avg);
+						r1.add_dirn(add_x_avg);
+					}
+
+
+			// divide all by 9.
 			// cout << "i, j = " << i << " " << j << endl;
 			// r_ij.print(); cout << endl;
-			auto rgb = recursive_ray_trace(r_ij,0);
-			for (int k = 0; k < 3; k++)
-			render_this[i][j][k] = min(rgb.first[k]*rgb.second,(float)255.0);
 			// RAY IN WCS:
 			// call rrt.
+			for (int k = 0; k < 3; k++)
+				render_this[i][j][k] = min(float(avg[k]/9.0),(float)255.0);
 		}
 		r_ij.add_dirn(sub_y);
 	}
