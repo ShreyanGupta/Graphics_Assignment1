@@ -3,16 +3,16 @@ CFLAGS = -c -std=c++11 -Ofast -march=native
 LFLAGS = -std=c++11
 OBJ = Matrix.o VCS.o Ray.o Object.o parse.o
 
-all : out
+all : render
 
-debug: out
-	gdb out
+debug: render
+	gdb render
 
-out: $(OBJ) main.o
-	g++ $(LFLAGS) $(OBJ) main.o -o out
+render: $(OBJ) main.o
+	g++ $(LFLAGS) $(OBJ) main.o -o render
 
 test: $(OBJ) test.o
-	g++ $(LFLAGS) $(OBJ) test.o -o out
+	g++ $(LFLAGS) $(OBJ) test.o -o render
 
 Matrix.o : Matrix.cpp Matrix.h
 	g++ $(CFLAGS) Matrix.cpp
@@ -37,4 +37,6 @@ test.o : test.cpp VCS.h
 
 clean : 
 	rm *.o
-	rm out
+	rm render
+	rm matrix.txt
+	rm image.jpg
