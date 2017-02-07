@@ -1,5 +1,26 @@
 #include "VCS.h"
 
+Ray make_ray(float a, float b, float c, float d, float e, float f){
+	vector<float> x(4,1), y(4,1);
+	x[0] = a;
+	x[1] = b;
+	x[2] = c;
+	y[0] = d;
+	y[1] = e;
+	y[2] = f;
+	return Ray(x,y);
+}
+
+float dot(Ray &p, Ray &q){
+	auto p_d = p.get_d();
+	auto q_d = q.get_d();
+	float ans = 0;
+	for(int i=0; i<3; ++i){
+		ans += p_d[i] * q_d[i];
+	}
+	return ans/sqrt(get<0>(p.get_abc()) * get<0>(q.get_abc()));
+}
+
 VCS::VCS(){
 	u = vector<float>(4,1);
 	v = vector<float>(4,1);
@@ -61,7 +82,7 @@ void VCS::generate_Rays()
 			r_ij.add_dirn(add_y);
 			auto rgb = recursive_ray_trace(r_ij,0);
 			for (int k = 0; k < 3; k++)
-			render_this[i][j][k] = min(rgb.first[k]*rgb.second,255);
+			render_this[i][j][k] = min(rgb.first[k]*rgb.second,(float)255.0);
 			// RAY IN WCS:
 			// call rrt.
 		}
@@ -112,7 +133,8 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
 	if(q.first == NULL) return make_pair(bg_color,1);
 	auto int_ray = get_acc_illumination(r, q);
 	float intensity = int_ray.first;
-	intensity += recursive_ray_trace(int_ray.second, n+1);
+	auto coh_Reflect = recursive_ray_trace(int_ray.second, n+1);
+	intensity += coh_Reflect.second;
 	return make_pair(q.first->color,intensity);
 }
 

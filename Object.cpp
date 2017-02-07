@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+float dot(Ray &p, Ray &q);
+
 Object::Object(){
 	k_ads = vector<float>(3);
 	color = vector<int>(3);
@@ -13,12 +15,18 @@ void Object::set_color(int r, int g, int b){
 	color[2] = std::max(0, std::min(255, b));
 }
 
-Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
-	return Ray(t.transform_inv_transpose(pr.second), r.get_point(pr.first));
+Ray Object::reflected(Ray &r, Ray &n){
+	auto r_d = r.get_d();
+	auto n_d = n.get_d();
+	float factor = -2 * dot(r,n) * sqrt(get<0>(r.get_abc()) / get<0>(n.get_abc()));
+	for(int i=0; i<3; ++i){
+		n_d[i] = n_d[i] * factor + r_d[i];
+	}
+	return Ray(n_d, r.get_p());
 }
 
-Ray Sphere::reflected(Ray &r, Ray &n){
-	
+Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
+	return Ray(t.transform_inv_transpose(pr.second), r.get_point(pr.first));
 }
 
 pair<float, vector<float> > Sphere::intersection(Ray &r){
@@ -66,10 +74,6 @@ Ray Triangle::normal(Ray &r, pair<float, vector<float> > &pr){
 	vector<float> p = r.get_point(pr.first);
 	Ray ans (nml,p);
 	return ans;
-}
-
-Ray Triangle::reflected(Ray &r, Ray &n){
-	
 }
 
 pair<float, vector<float> > Triangle::intersection(Ray &r){
