@@ -140,10 +140,14 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
 
 void VCS::render()
 {
-	Mat m;
-	m = imread("img.png", 1);
-	imshow("Image", m);
-	waitkey(0);
+	ofstream fout("matrix.txt");
+	fout << pixel_x << " " << pixel_y << "\n";
+	for (int i = 0; i < pixel_x; i++)
+	{
+		for (int j = 0; j < pixel_y; j++)
+			fout << render_this[i][j][0] << " " << render_this[i][j][1] << " " << render_this[i][j][2] << " ";
+		fout << "\n";
+	}
 }
 
 
