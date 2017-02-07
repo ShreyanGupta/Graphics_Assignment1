@@ -2,7 +2,26 @@
 
 #include <cmath>
 
-float dot(Ray &p, Ray &q);
+Ray make_ray(float a, float b, float c, float d, float e, float f){
+	vector<float> x(4,1), y(4,1);
+	x[0] = a;
+	x[1] = b;
+	x[2] = c;
+	y[0] = d;
+	y[1] = e;
+	y[2] = f;
+	return Ray(x,y);
+}
+
+float dot(Ray &p, Ray &q){
+	auto p_d = p.get_d();
+	auto q_d = q.get_d();
+	float ans = 0;
+	for(int i=0; i<3; ++i){
+		ans += p_d[i] * q_d[i];
+	}
+	return ans/sqrt(get<0>(p.get_abc()) * get<0>(q.get_abc()));
+}
 
 Object::Object(){
 	k_ads = vector<float>(3);
@@ -72,8 +91,15 @@ void Triangle::Calc_Normal()
 
 Ray Triangle::normal(Ray &r, pair<float, vector<float> > &pr){
 	vector<float> p = r.get_point(pr.first);
-	Ray ans (nml,p);
-	return ans;
+	auto d = r.get_d();
+	if(d[0]*nml[0] + d[1]*nml[1] + d[2]*nml[2])
+		return Ray(nml, p);
+	else
+	{
+		for (int i = 0; i < 3; i++)
+			nml[i] *= -1;
+		return Ray(nml,p);
+	}
 }
 
 pair<float, vector<float> > Triangle::intersection(Ray &r){
@@ -94,8 +120,8 @@ pair<float, vector<float> > Triangle::intersection(Ray &r){
 	// x.print_Inv();
 	vector<float> uvwt = r.get_p();
 	uvwt = x.Inv_Vec_Mul(uvwt);
-	for (int i = 0; i < 4; i++)
-		cout << uvwt[i] << " ";
+	// for (int i = 0; i < 4; i++)
+	// 	cout << uvwt[i] << " ";
 	if (uvwt[0] >= eps && (uvwt[1] >= eps) && (uvwt[2] >= eps))
 	{
 		// PoI inside triangle!

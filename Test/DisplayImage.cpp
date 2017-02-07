@@ -22,7 +22,8 @@ int main(int argc, char** argv )
     }
 
     cv::imwrite("noob_ion_pit_jayega.jpg",final_image);
-    cv::waitKey(1);
+    cv::imshow("Display", final_image);
+    cv::waitKey(10000);
 
     // if ( argc != 2 )
     // {

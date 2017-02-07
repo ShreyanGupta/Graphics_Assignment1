@@ -10,7 +10,7 @@ vector<LightSrc> parse_light_source(int n, istream &fin);
 
 
 VCS parse_vcs(istream &fin){
-	cout << "inside function\n";
+	// cout << "inside function\n";
 
 	string temp;
 	VCS vcs;
@@ -37,11 +37,12 @@ VCS parse_vcs(istream &fin){
 			cout << "Spheres " << n << endl;
 			parse_sphere(n, vcs.obj_vec, fin);
 		}
-		// else if(temp.compare("triangles:") == 0){
-		// 	int n;
-		// 	fin >> n;
-		// 	parse_triangles(n, vcs.obj_vec, fin);
-		// }
+		else if(temp.compare("triangles:") == 0){
+			int n;
+			fin >> n;
+			cout << "Triangle " << n << endl;
+			parse_triangles(n, vcs.obj_vec, fin);
+		}
 	}
 
 	return vcs;
@@ -70,9 +71,9 @@ void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin){
 			if(temp.compare("c:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
-				cout << "center before\n"; sphere->t.print();
+				// cout << "center before\n"; sphere->t.print();
 				sphere->t *= Matrix(1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1);
-				cout << "center\n"; sphere->t.print();
+				// cout << "center\n"; sphere->t.print();
 			}
 			else if(temp.compare("r:") == 0){
 				float r;
@@ -87,19 +88,19 @@ void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin){
 				if(temp.compare("x") == 0) sphere->t *= Matrix(1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1);
 				if(temp.compare("y") == 0) sphere->t *= Matrix(c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1);
 				if(temp.compare("z") == 0) sphere->t *= Matrix(c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1);
-				cout << "rotate " << temp << endl; sphere->t.print();
+				// cout << "rotate " << temp << endl; sphere->t.print();
 			}
 			else if(temp.compare("shear:") == 0){
 				float c1, c2, c3, c4, c5, c6;
 				fin >> c1 >> c2 >> c3 >> c4 >> c5 >> c6;
 				sphere->t *= Matrix(1,c1,c2,0, c3,1,c4,0, c5,c6,1,0, 0,0,0,1);
-				cout << "shear\n"; sphere->t.print();
+				// cout << "shear\n"; sphere->t.print();
 			}
 			else if(temp.compare("scale:") == 0){
 				float x, y, z;
 				fin >> x >> y >> z;
 				sphere->t *= Matrix(x,0,0,0, 0,y,0,0, 0,0,z,0, 0,0,0,1);
-				cout << "scale\n"; sphere->t.print();
+				// cout << "scale\n"; sphere->t.print();
 			}
 			else if(temp.compare("color:") == 0){
 				float r, g, b;
@@ -127,8 +128,12 @@ void parse_triangles(int n, vector<Object*> &obj_vector, istream &fin){
 		fin >> t->a[0] >> t->a[1] >> t->a[2];
 		fin >> t->b[0] >> t->b[1] >> t->b[2];
 		fin >> t->c[0] >> t->c[1] >> t->c[2];
+		int ca,cb,cc;
+		fin >> temp >> ca >> cb >> cc;
 		fin >> temp >> t->k_ads[0] >> t->k_ads[1] >> t->k_ads[2];
+		fin >> temp;
 		t->Calc_Normal();
+		t->set_color(ca,cb,cc);
 		obj_vector.push_back(t);
 	}
 }

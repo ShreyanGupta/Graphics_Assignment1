@@ -15,6 +15,9 @@ using namespace std;
 #define eps 0.000001
 #define s_pow 4
 
+Ray make_ray(float a, float b, float c, float d, float e, float f);
+float dot(Ray &p, Ray &q);
+
 class Object{
 public:	
 	vector<float> k_ads;

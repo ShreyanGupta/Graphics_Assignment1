@@ -10,8 +10,6 @@
 
 using namespace std;
 
-Ray make_ray(float a, float b, float c, float d, float e, float f);
-float dot(Ray &p, Ray &q);
 
 struct LightSrc
 {

@@ -1,25 +1,5 @@
 #include "VCS.h"
 
-Ray make_ray(float a, float b, float c, float d, float e, float f){
-	vector<float> x(4,1), y(4,1);
-	x[0] = a;
-	x[1] = b;
-	x[2] = c;
-	y[0] = d;
-	y[1] = e;
-	y[2] = f;
-	return Ray(x,y);
-}
-
-float dot(Ray &p, Ray &q){
-	auto p_d = p.get_d();
-	auto q_d = q.get_d();
-	float ans = 0;
-	for(int i=0; i<3; ++i){
-		ans += p_d[i] * q_d[i];
-	}
-	return ans/sqrt(get<0>(p.get_abc()) * get<0>(q.get_abc()));
-}
 
 VCS::VCS(){
 	u = vector<float>(4,1);
@@ -116,7 +96,7 @@ pair<float,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vec
 	auto reflected = input.first->reflected(r, normal);
 	for (auto light : lights)
 	{
-		// Ray : p ->
+		// Ray : p -> src
 		auto np = normal.get_p();
 		auto d = light.src;
 		for (int i = 0; i < 3; i++)
@@ -126,19 +106,26 @@ pair<float,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vec
 		if (l_in.first != NULL)
 			continue;
 		// add Id, Is.
-		ans += input.first->k_ads[1] * light.intensity * -dot(r, normal);
-		ans += input.first->k_ads[2] * light.intensity * pow(dot(p_src, reflected), s_pow);
+		float kd_dot = dot(p_src,normal);
+		if (kd_dot >= 0.0)
+		{
+			ans += input.first->k_ads[1] * light.intensity * kd_dot;
+			ans += input.first->k_ads[2] * light.intensity * pow(dot(p_src, reflected), s_pow);			
+		}
 	}
+	// cout << "     " << ans << endl;
 	return make_pair(ans,reflected);
 }
 
 pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
-	if(n > limit) return make_pair(bg_color,1);
+	if(n == limit) return make_pair(bg_color,0);
 	auto q = intersect(r);
 	if(q.first == NULL) return make_pair(bg_color,1);
-	// if (n == 0) cout << "Not background. \n";
 	auto int_ray = get_acc_illumination(r, q);
 	float intensity = int_ray.first;
+	
+	// if (n == 0) cout << "     " << intensity << endl;
+
 	auto coh_Reflect = recursive_ray_trace(int_ray.second, n+1);
 	intensity += coh_Reflect.second;
 	return make_pair(q.first->color,intensity);
