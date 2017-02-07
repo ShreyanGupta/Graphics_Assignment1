@@ -1,5 +1,3 @@
 make
-./out
-cd Test/
-./DisplayImage
-cd ..
+./render inputs/input1.txt
+./DisplayImage matrix.txt

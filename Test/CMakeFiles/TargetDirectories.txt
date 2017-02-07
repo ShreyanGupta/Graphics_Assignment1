@@ -1,3 +1,0 @@
-/Users/Shreyan/Library/Mobile Documents/com~apple~CloudDocs/Sem6_Data/COL781_Graphics/Assignment1/Test/CMakeFiles/rebuild_cache.dir
-/Users/Shreyan/Library/Mobile Documents/com~apple~CloudDocs/Sem6_Data/COL781_Graphics/Assignment1/Test/CMakeFiles/edit_cache.dir
-/Users/Shreyan/Library/Mobile Documents/com~apple~CloudDocs/Sem6_Data/COL781_Graphics/Assignment1/Test/CMakeFiles/DisplayImage.dir
