@@ -5,6 +5,16 @@ using namespace std;
 
 VCS parse_vcs(istream &fin);
 
+Ray reflected(Ray &r, Ray &n){
+	auto r_d = r.get_d();
+	auto n_d = r.get_d();
+	for(int i=0; i<3; ++i){
+		n_d[i] *= -2 * r_d[i] * n_d[i] / sqrt(get<0>(r.get_abc()) * get<0>(n.get_abc()));
+		n_d[i] += r_d[i];
+	}
+	return Ray(n_d, r.get_p());
+}
+
 int main(int argc, char const *argv[])
 {
 	// ifstream fin("inputs/" + (string)(argv[1]));
@@ -52,16 +62,18 @@ int main(int argc, char const *argv[])
 	VCS vcs = parse_vcs(fin);
 	cout << "Parsing done! \n";
 	
-	Ray r = make_ray(0,0,1, 0,0,0);
-	r.print();
-	cout << vcs.obj_vec.size() << endl;
-	for(auto ptr : vcs.obj_vec){
-		auto intersection = ptr->intersection(r);
-		cout << "int " << intersection.first << " point ";
-		for(auto i : intersection.second) cout << i << " "; cout << endl;
-		auto normal = ptr->normal(r,intersection);
-		normal.print();
-	}
+	// Ray r = make_ray(0,0,1, 0,0,0);
+	// r.print();
+	// cout << vcs.obj_vec.size() << endl;
+	// for(auto ptr : vcs.obj_vec){
+	// 	auto intersection = ptr->intersection(r);
+	// 	cout << "int " << intersection.first << " point ";
+	// 	for(auto i : intersection.second) cout << i << " "; cout << endl;
+	// 	auto normal = ptr->normal(r,intersection);
+	// 	normal.print();
+	// }
+
+	reflected(make_ray(1,-1,0, 0,0,0), make_ray(0,1,0, 0,0,0)).print()
 	
 	return 0;
 }

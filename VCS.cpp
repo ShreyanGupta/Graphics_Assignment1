@@ -1,5 +1,26 @@
 #include "VCS.h"
 
+Ray make_ray(float a, float b, float c, float d, float e, float f){
+	vector<float> x(4,1), y(4,1);
+	x[0] = a;
+	x[1] = b;
+	x[2] = c;
+	y[0] = d;
+	y[1] = e;
+	y[2] = f;
+	return Ray(x,y);
+}
+
+float dot(Ray p, Ray q){
+	auto p_d = p.get_d();
+	auto q_d = q.get_d();
+	float ans = 0;
+	for(int i=0; i<3; ++i){
+		ans += p_d[i] * q_d[i];
+	}
+	return ans/sqrt(get<0>(p.get_abc()) * get<0>(q.get_abc()));
+}
+
 VCS::VCS(){
 	u = vector<float>(4,1);
 	v = vector<float>(4,1);
