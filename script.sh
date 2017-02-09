@@ -1,3 +1,3 @@
 make
-./render inputs/input1.txt
+./render inputs/input3.txt
 ./DisplayImage matrix.txt

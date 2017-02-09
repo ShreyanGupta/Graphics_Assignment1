@@ -12,19 +12,21 @@
 
 using namespace std;
 
-#define eps 0.000001
-#define c_limit 0.03
+#define eps 0.00001
+#define c_limit 0.01
 // #define s_pow 4
 
 Ray make_ray(float a, float b, float c, float d, float e, float f);
 float dot(Ray &p, Ray &q);
+void add_vecs(vector<float> &a1, vector<float> &a2);
+void mult_const(vector<float> &a, float f);
 
 class Object{
 public:	
 	vector<float> k_ads;
 	float kr, kt, eta;
 	float s_pow;
-	vector<int> color;
+	vector<float> color;
 	Matrix t;
 	Object();
 	void set_color(int r, int g, int b);

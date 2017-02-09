@@ -8,14 +8,14 @@ VCS::VCS(){
 	eye_vcs = vector<float>(4,1);
 	origin_vcs = vector<float>(4,1);
 	window = vector<float>(4,0);
-	bg_color = vector<int> (3,0);
+	bg_color = vector<float> (3,0);
 }
 
 void VCS::set_bg_color()
 {
-	bg_color[0] = std::max(0, std::min(255, bg_color[0]));
-	bg_color[1] = std::max(0, std::min(255, bg_color[1]));
-	bg_color[2] = std::max(0, std::min(255, bg_color[2]));
+	bg_color[0] = std::max(0.0f, std::min(255.0f, bg_color[0]));
+	bg_color[1] = std::max(0.0f, std::min(255.0f, bg_color[1]));
+	bg_color[2] = std::max(0.0f, std::min(255.0f, bg_color[2]));
 }
 
 void VCS::generate_Rays()
@@ -110,7 +110,7 @@ void VCS::generate_Rays()
 			auto rgb = recursive_ray_trace(r_ij,0,1);
 
 			for (int k = 0; k < 3; k++)
-				render_this[i][j][k] = min(rgb.first[k]*rgb.second,(float)255.0);
+				render_this[i][j][k] = min(float(rgb[k]),(float)255.0);
 		}
 		r_ij.add_dirn(sub_y);
 	}
@@ -161,12 +161,13 @@ tuple<float,Ray,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float
 	return make_tuple(ans,reflected,refracted);
 }
 
-pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n, float contri){
-	if(n == limit) return make_pair(bg_color,0);
+vector<float> VCS::recursive_ray_trace(Ray &r, int n, float contri){
+	if(n == limit) return vector<float> (3,0.0);
 	auto q = intersect(r);
-	if(q.first == NULL) return make_pair(bg_color,1);
+	if(q.first == NULL) return bg_color;
 	auto int_ray = get_acc_illumination(r, q);
-	float intensity = std::get<0>(int_ray);
+	vector<float> rthis (q.first->color);
+	mult_const(rthis,std::get<0>(int_ray));
 	
 	// if (n == 0) cout << "     " << intensity << endl;
 	float qkr = (q.first->kr);
@@ -174,14 +175,17 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n, float contri){
 	if (contri*qkr > c_limit)
 	{
 		auto coh_Reflect = recursive_ray_trace(std::get<1>(int_ray), n+1,contri*qkr);
-		intensity += (qkr)*coh_Reflect.second;		
+		mult_const(coh_Reflect,qkr);
+		add_vecs(rthis,coh_Reflect);
+		// (std::get<1>(int_ray)).print();
 	}
-	if (contri*qkt > c_limit)
-	{
-		auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1, contri*qkt);
-		intensity += (qkt)*coh_Refract.second;
-	}
-	return make_pair(q.first->color,intensity);
+	// if (contri*qkt > c_limit)
+	// {
+	// 	auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1, contri*qkt);
+	// 	mult_const(coh_Refract,qkt);
+	// 	add_vecs(rthis,coh_Refract);
+	// }
+	return rthis;
 }
 
 // void VCS::render()
@@ -198,8 +202,8 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n, float contri){
 
 void VCS::render()
 {
-	float a1 = 0.75;
-	float a2 = 0.25;
+	float a1 = 1;
+	float a2 = 0.0;
 	ofstream fout("matrix.txt");
 	fout << (pixel_x-2) << " " << (pixel_y-2) << "\n";
 	for (int i = 1; i < pixel_x-1; i++)

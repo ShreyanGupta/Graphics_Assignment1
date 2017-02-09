@@ -23,9 +23,21 @@ float dot(Ray &p, Ray &q){
 	return ans/sqrt(get<0>(p.get_abc()) * get<0>(q.get_abc()));
 }
 
+void add_vecs(vector<float> &a1, vector<float> &a2)
+{
+	for (int i = 0; i < 3; i++)
+		a1[i] += a2[i];
+}
+
+void mult_const(vector<float> &a, float f)
+{
+	for (int i = 0; i < 3; i++)
+		a[i] *= f;
+}
+
 Object::Object(){
 	k_ads = vector<float>(3);
-	color = vector<int>(3);
+	color = vector<float>(3);
 }
 
 void Object::set_color(int r, int g, int b){
@@ -41,12 +53,18 @@ Ray Object::reflected(Ray &r, Ray &n){
 	for(int i=0; i<3; ++i){
 		n_d[i] = n_d[i] * factor + r_d[i];
 	}
-	return Ray(n_d, r.get_p());
+	return Ray(n_d, n.get_p());
 }
 
-Ray Object::refracted(Ray &r, Ray &n)
-{
-	// use eta.
+Ray Object::refracted(Ray &l, Ray &n){
+	auto l_d = l.get_d();
+	auto n_d = n.get_d();
+	float cos_i = dot(l,n);
+	float cos_t = sqrt(eta*eta - 1 + cos_i*cos_i)/eta;
+	for(int i=0; i<3; ++i){
+		l_d[i] = eta * (l_d[i] + cos_i*n_d[i]) - cos_t * n_d[i];
+	}
+	return Ray(l_d, n.get_p());
 }
 
 Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
@@ -54,17 +72,14 @@ Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
 }
 
 pair<float, vector<float> > Sphere::intersection(Ray &r){
-	// r.print();
-	// t.print(); 
-	// t.print_Inv();
 	Ray t_r = t.transform_inv(r);
-	// cout << "print t_r\n"; t_r.print(); cout << endl;
 	auto abc = t_r.get_abc();
 	get<2>(abc) -= radius*radius;
 	float disc = get<1>(abc) * get<1>(abc) - get<0>(abc) * get<2>(abc);
 	if(disc < 0) return make_pair(-2, vector<float>(4,1));
 	else{
 		float tt = (-get<1>(abc) - sqrt(disc))/get<0>(abc);
+		// if(tt < eps*100) tt = (-get<1>(abc) + sqrt(disc))/get<0>(abc);
 		return make_pair(tt, t_r.get_point(tt));
 	}
 }

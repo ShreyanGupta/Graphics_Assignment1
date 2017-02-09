@@ -24,7 +24,7 @@ struct LightSrc
 
 class VCS
 {
-	int limit = 1;
+	int limit = 10;
 public:
 	vector<float> u;
 	vector<float> v;
@@ -40,7 +40,7 @@ public:
 	vector<Object*> obj_vec;
 	vector<LightSrc> lights;
 
-	vector<int> bg_color;
+	vector<float> bg_color;
 	vector<vector<vector<int> > > render_this;
 	
 	VCS();
@@ -48,7 +48,7 @@ public:
 	void set_bg_color();
 	void render();
 	
-	pair<vector<int>,float> recursive_ray_trace(Ray&,int,float);
+	vector<float> recursive_ray_trace(Ray&,int,float);
 	pair<Object *, pair<float, vector<float> > > intersect(Ray &r);
 	tuple<float, Ray, Ray> get_acc_illumination(Ray &, pair<Object *, pair<float, vector<float> > > &);
 };
