@@ -48,9 +48,9 @@ public:
 	void set_bg_color();
 	void render();
 	
-	pair<vector<int>,float> recursive_ray_trace(Ray&,int);
+	pair<vector<int>,float> recursive_ray_trace(Ray&,int,float);
 	pair<Object *, pair<float, vector<float> > > intersect(Ray &r);
-	pair<float, Ray> get_acc_illumination(Ray &, pair<Object *, pair<float, vector<float> > > &);
+	tuple<float, Ray, Ray> get_acc_illumination(Ray &, pair<Object *, pair<float, vector<float> > > &);
 };
 
 #endif

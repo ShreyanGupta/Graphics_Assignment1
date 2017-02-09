@@ -13,6 +13,7 @@
 using namespace std;
 
 #define eps 0.000001
+#define c_limit 0.03
 // #define s_pow 4
 
 Ray make_ray(float a, float b, float c, float d, float e, float f);

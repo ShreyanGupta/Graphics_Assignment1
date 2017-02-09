@@ -161,7 +161,7 @@ tuple<float,Ray,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float
 	return make_tuple(ans,reflected,refracted);
 }
 
-pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
+pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n, float contri){
 	if(n == limit) return make_pair(bg_color,0);
 	auto q = intersect(r);
 	if(q.first == NULL) return make_pair(bg_color,1);
@@ -169,12 +169,16 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
 	float intensity = std::get<0>(int_ray);
 	
 	// if (n == 0) cout << "     " << intensity << endl;
-
-	auto coh_Reflect = recursive_ray_trace(std::get<1>(int_ray), n+1);
-	intensity += (q.first->kr)*coh_Reflect.second;
-
-	auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1);
-	intensity += (q.first->kt)*coh_Refract.second;
+	if (contri*(q.first->kr) > c_limit)
+	{
+		auto coh_Reflect = recursive_ray_trace(std::get<1>(int_ray), n+1);
+		intensity += (q.first->kr)*coh_Reflect.second;		
+	}
+	if (contri*(q.first->kt) > c_limit)
+	{
+		auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1);
+		intensity += (q.first->kt)*coh_Refract.second;
+	}
 	return make_pair(q.first->color,intensity);
 }
 
