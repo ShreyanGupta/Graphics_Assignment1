@@ -44,6 +44,11 @@ Ray Object::reflected(Ray &r, Ray &n){
 	return Ray(n_d, r.get_p());
 }
 
+Ray Object::refracted(Ray &r, Ray &n)
+{
+	// use eta.
+}
+
 Ray Sphere::normal(Ray &r, pair<float, vector<float> > &pr){
 	return Ray(t.transform_inv_transpose(pr.second), r.get_point(pr.first));
 }

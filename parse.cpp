@@ -113,6 +113,7 @@ void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin){
 				sphere->k_ads[0] = ka;
 				sphere->k_ads[1] = kd;
 				sphere->k_ads[2] = ks;
+				fin >> sphere->kr >> sphere->kt >> sphere->eta;
 			}
 		}
 		sphere->t.Calc_Inverse();
@@ -131,6 +132,7 @@ void parse_triangles(int n, vector<Object*> &obj_vector, istream &fin){
 		int ca,cb,cc;
 		fin >> temp >> ca >> cb >> cc;
 		fin >> temp >> t->k_ads[0] >> t->k_ads[1] >> t->k_ads[2];
+		fin >> t->kr >> t->kt >> t->eta;
 		fin >> temp;
 		t->Calc_Normal();
 		t->set_color(ca,cb,cc);
