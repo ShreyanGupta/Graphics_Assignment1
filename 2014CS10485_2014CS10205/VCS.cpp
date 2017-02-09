@@ -130,14 +130,12 @@ pair<Object *, pair<float, vector<float> > > VCS::intersect(Ray &r){
 	return make_pair(first_obj, t_min);
 }
 
-tuple<float,Ray,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
+pair<float,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float, vector<float> > > &input){
 	// auto final_color = //ambient
 	auto ans = input.first->k_ads[0] * Ia;
 	auto normal = input.first->normal(r, input.second);
 	// normal.print();
 	auto reflected = input.first->reflected(r, normal);
-
-	auto refracted = input.first->refracted(r,normal);
 	for (auto light : lights)
 	{
 		// Ray : p -> src
@@ -158,7 +156,7 @@ tuple<float,Ray,Ray> VCS::get_acc_illumination(Ray &r, pair<Object *, pair<float
 		}
 	}
 	// cout << "     " << ans << endl;
-	return make_tuple(ans,reflected,refracted);
+	return make_pair(ans,reflected);
 }
 
 pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
@@ -166,15 +164,12 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n){
 	auto q = intersect(r);
 	if(q.first == NULL) return make_pair(bg_color,1);
 	auto int_ray = get_acc_illumination(r, q);
-	float intensity = std::get<0>(int_ray);
+	float intensity = int_ray.first;
 	
 	// if (n == 0) cout << "     " << intensity << endl;
 
-	auto coh_Reflect = recursive_ray_trace(std::get<1>(int_ray), n+1);
-	intensity += (q.first->kr)*coh_Reflect.second;
-
-	auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1);
-	intensity += (q.first->kt)*coh_Refract.second;
+	auto coh_Reflect = recursive_ray_trace(int_ray.second, n+1);
+	intensity += coh_Reflect.second;
 	return make_pair(q.first->color,intensity);
 }
 

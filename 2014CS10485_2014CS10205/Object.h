@@ -21,14 +21,12 @@ float dot(Ray &p, Ray &q);
 class Object{
 public:	
 	vector<float> k_ads;
-	float kr, kt, eta;
 	float s_pow;
 	vector<int> color;
 	Matrix t;
 	Object();
 	void set_color(int r, int g, int b);
 	Ray reflected(Ray &r, Ray &n);
-	Ray refracted(Ray &r, Ray &n);
 	virtual Ray normal(Ray &r, pair<float, vector<float> > &pr) = 0;
 	virtual pair<float, vector<float> > intersection(Ray &r) = 0;
 };

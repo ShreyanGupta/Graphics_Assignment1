@@ -1,0 +1,32 @@
+u: 1 0 0
+v: 0 1 0
+n: 0 0 -1
+e: 0 0 -30
+r: 0 0 10
+w: -40 40 40 -40
+No_pixels: 1000 1000
+Ia: 0.1
+BgColor: 120 0 0
+
+light-sources: 2
+c: -30 -40 20 
+i: 1
+c: 40 20 80
+i: 1
+
+spheres: 1
+c: 0 0 -30
+r: 35
+color: 0 200 0
+K: 0 1 1 10
+end
+
+triangles: 1
+0 0 10
+0 10 10 
+10 0 10 
+color: 0 0 200
+K: 3 1 1 4
+end
+
+end
