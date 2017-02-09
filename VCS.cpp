@@ -107,7 +107,7 @@ void VCS::generate_Rays()
 			// r_ij.print(); cout << endl;
 			// RAY IN WCS:
 			// call rrt.
-			auto rgb = recursive_ray_trace(r_ij,0);
+			auto rgb = recursive_ray_trace(r_ij,0,1);
 
 			for (int k = 0; k < 3; k++)
 				render_this[i][j][k] = min(rgb.first[k]*rgb.second,(float)255.0);
@@ -169,15 +169,17 @@ pair<vector<int>, float> VCS::recursive_ray_trace(Ray &r, int n, float contri){
 	float intensity = std::get<0>(int_ray);
 	
 	// if (n == 0) cout << "     " << intensity << endl;
-	if (contri*(q.first->kr) > c_limit)
+	float qkr = (q.first->kr);
+	float qkt = (q.first->kt);
+	if (contri*qkr > c_limit)
 	{
-		auto coh_Reflect = recursive_ray_trace(std::get<1>(int_ray), n+1);
-		intensity += (q.first->kr)*coh_Reflect.second;		
+		auto coh_Reflect = recursive_ray_trace(std::get<1>(int_ray), n+1,contri*qkr);
+		intensity += (qkr)*coh_Reflect.second;		
 	}
-	if (contri*(q.first->kt) > c_limit)
+	if (contri*qkt > c_limit)
 	{
-		auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1);
-		intensity += (q.first->kt)*coh_Refract.second;
+		auto coh_Refract = recursive_ray_trace(std::get<2>(int_ray), n+1, contri*qkt);
+		intensity += (qkt)*coh_Refract.second;
 	}
 	return make_pair(q.first->color,intensity);
 }

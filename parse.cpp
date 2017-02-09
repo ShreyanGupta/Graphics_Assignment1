@@ -2,7 +2,7 @@
 #include "VCS.h"
 
 #include <fstream>
-#include <cmath>
+#include <math.h>
 
 void parse_sphere(int n, vector<Object*> &obj_vector, istream &fin);
 void parse_triangles(int n, vector<Object*> &obj_vector, istream &fin);
